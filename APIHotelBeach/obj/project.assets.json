@@ -3082,11 +3082,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\hazel\\OneDrive\\Escritorio\\ASP.NET\\Proyecto\\APIHotelBeach\\APIHotelBeach\\APIHotelBeach.csproj",
+      "projectUniqueName": "C:\\Users\\hazel\\source\\repos\\API-Beach.SA\\APIHotelBeach\\APIHotelBeach.csproj",
       "projectName": "APIHotelBeach",
-      "projectPath": "C:\\Users\\hazel\\OneDrive\\Escritorio\\ASP.NET\\Proyecto\\APIHotelBeach\\APIHotelBeach\\APIHotelBeach.csproj",
+      "projectPath": "C:\\Users\\hazel\\source\\repos\\API-Beach.SA\\APIHotelBeach\\APIHotelBeach.csproj",
       "packagesPath": "C:\\Users\\hazel\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\hazel\\OneDrive\\Escritorio\\ASP.NET\\Proyecto\\APIHotelBeach\\APIHotelBeach\\obj\\",
+      "outputPath": "C:\\Users\\hazel\\source\\repos\\API-Beach.SA\\APIHotelBeach\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\hazel\\AppData\\Roaming\\NuGet\\NuGet.Config",

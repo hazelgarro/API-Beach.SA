@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "GDvNWdW/toLn59mNmHuoUruEBxx8L5l2vOrwA7cZo8P8qeQflu92hUZ/jh2pCvr8XZzSdz3En+s4Aj5WClY70A==",
+  "dgSpecHash": "mLEFvks8TikURxkZOY81sqTeRU9YJCBeuQv3Mt433V5nFF+k7QBqmag0UGJqU/OEumIJCVlBzo/ntp5/CjxvMA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\hazel\\OneDrive\\Escritorio\\ASP.NET\\Proyecto\\APIHotelBeach\\APIHotelBeach\\APIHotelBeach.csproj",
+  "projectFilePath": "C:\\Users\\hazel\\source\\repos\\API-Beach.SA\\APIHotelBeach\\APIHotelBeach.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\hazel\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
     "C:\\Users\\hazel\\.nuget\\packages\\azure.identity\\1.7.0\\azure.identity.1.7.0.nupkg.sha512",
