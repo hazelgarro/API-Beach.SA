@@ -17,12 +17,13 @@ namespace APIHotelBeach.Controllers
         {
             _context = pContext;
         }
-
+    //metodo para buscar por cedula
         [HttpGet("Buscar")]
         public async Task<Cliente> GetClient(string cedula)
         {
             var temp = await _context.Clientes.FirstOrDefaultAsync(x => x.Cedula == cedula);
             return temp;
+
         }
 
     }
