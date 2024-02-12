@@ -21,10 +21,28 @@ namespace APIHotelBeach.Controllers
         [HttpGet("Buscar")]
         public async Task<Cliente> GetClient(string cedula)
         {
-            var temp = await _context.Clientes.FirstOrDefaultAsync(x => x.Cedula == cedula);
+            var temp = await _context.Clientes.FirstOrDefaultAsync(c => c.Cedula == cedula);
             return temp;
 
         }
 
-    }
-}
+        //[Authorize]
+        [HttpPut("Modificar")]
+        public string Modificar(Cliente cliente)
+        {
+            string msj = "";
+            try
+            {
+                _context.Clientes.Update(cliente);
+                _context.SaveChanges();
+                msj = "Cliente modificado correctamente";
+            }
+            catch (Exception ex)
+            {
+                msj = "Error " + ex.Message + " " + ex.InnerException.ToString;
+            }
+            return msj;
+        }//end modificar
+
+    }//end class
+}//end namespace

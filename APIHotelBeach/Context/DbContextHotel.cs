@@ -9,6 +9,8 @@ namespace APIHotelBeach.Context
         public DbContextHotel(DbContextOptions<DbContextHotel> options) : base(options){ }
 
         public DbSet<Cliente> Clientes { get; set; }
+        public DbSet<Empleado> Empleados { get; set; }
+        public DbSet<Paquete> Paquetes { get; set; }
 
     }
 }

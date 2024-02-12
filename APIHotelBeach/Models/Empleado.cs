@@ -2,24 +2,14 @@
 
 namespace APIHotelBeach.Models
 {
-    public class Cliente
+    public class Empleado
     {
-
         [Key]
         [Required]
-        public string Cedula { get; set; }
-
-        [Required]
-        public string TipoCedula { get; set; }
+        public int ID { get; set; }
 
         [Required]
         public string NombreCompleto { get; set; }
-
-        [Required]
-        public string Telefono { get; set; }
-
-        [Required]
-        public string Direccion { get; set; }
 
         [Required]
         public string Email { get; set; }
@@ -31,13 +21,9 @@ namespace APIHotelBeach.Models
         public int TipoUsuario { get; set; }
 
         [Required]
-        public int Restablecer { get; set; }
-
-        [Required]
         public DateTime FechaRegistro { get; set; }
 
         [Required]
         public char Estado { get; set; }
-
-    }
-}
+    }//end class
+}//end namespace
