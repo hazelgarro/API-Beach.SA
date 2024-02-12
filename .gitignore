@@ -29,5 +29,6 @@
 **/*.log.*
 *.log
 *.db
-.vs/
+.vs/*
 Publish/
+.vs/
