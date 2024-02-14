@@ -46,6 +46,19 @@
           }
         }
       },
+      "BouncyCastle.Cryptography/2.2.1": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0/BouncyCastle.Cryptography.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/BouncyCastle.Cryptography.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "itext/8.0.3": {
         "type": "package",
         "dependencies": {
@@ -136,6 +149,23 @@
           }
         }
       },
+      "itext.bouncy-castle-adapter/8.0.3": {
+        "type": "package",
+        "dependencies": {
+          "BouncyCastle.Cryptography": "2.2.1",
+          "itext.commons": "8.0.3"
+        },
+        "compile": {
+          "lib/netstandard2.0/itext.bouncy-castle-adapter.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/itext.bouncy-castle-adapter.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "itext.commons/8.0.3": {
         "type": "package",
         "dependencies": {
@@ -157,6 +187,12 @@
         "type": "package",
         "dependencies": {
           "itext": "8.0.3"
+        }
+      },
+      "itext7.bouncy-castle-adapter/8.0.3": {
+        "type": "package",
+        "dependencies": {
+          "itext.bouncy-castle-adapter": "8.0.3"
         }
       },
       "Microsoft.Bcl.AsyncInterfaces/1.1.1": {
@@ -2288,6 +2324,26 @@
         "lib/netstandard2.0/Azure.Identity.xml"
       ]
     },
+    "BouncyCastle.Cryptography/2.2.1": {
+      "sha512": "A6Zr52zVqJKt18ZBsTnX0qhG0kwIQftVAjLmszmkiR/trSp8H+xj1gUOzk7XHwaKgyREMSV1v9XaKrBUeIOdvQ==",
+      "type": "package",
+      "path": "bouncycastle.cryptography/2.2.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.md",
+        "README.md",
+        "bouncycastle.cryptography.2.2.1.nupkg.sha512",
+        "bouncycastle.cryptography.nuspec",
+        "lib/net461/BouncyCastle.Cryptography.dll",
+        "lib/net461/BouncyCastle.Cryptography.xml",
+        "lib/net6.0/BouncyCastle.Cryptography.dll",
+        "lib/net6.0/BouncyCastle.Cryptography.xml",
+        "lib/netstandard2.0/BouncyCastle.Cryptography.dll",
+        "lib/netstandard2.0/BouncyCastle.Cryptography.xml",
+        "packageIcon.png"
+      ]
+    },
     "itext/8.0.3": {
       "sha512": "Qm6WtQ7sTWW95FIPYCNnQwOCesQQk1HoJ7Gpdn/xWGWf1p392NKwwmtovzUeV9zbACV0yae3LVcT9z9azIU6hQ==",
       "type": "package",
@@ -2346,6 +2402,22 @@
         "lib/netstandard2.0/itext.svg.xml"
       ]
     },
+    "itext.bouncy-castle-adapter/8.0.3": {
+      "sha512": "Al6JpWVyfESsU3wqjV5lEyD/921PLk7HBj1OlQOhBqx82JeA8popny5ryMWZjtxmDtuaWwrjKB8CPQ2mvH5Afw==",
+      "type": "package",
+      "path": "itext.bouncy-castle-adapter/8.0.3",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "ITSC-avatar.png",
+        "itext.bouncy-castle-adapter.8.0.3.nupkg.sha512",
+        "itext.bouncy-castle-adapter.nuspec",
+        "lib/net461/itext.bouncy-castle-adapter.dll",
+        "lib/net461/itext.bouncy-castle-adapter.xml",
+        "lib/netstandard2.0/itext.bouncy-castle-adapter.dll",
+        "lib/netstandard2.0/itext.bouncy-castle-adapter.xml"
+      ]
+    },
     "itext.commons/8.0.3": {
       "sha512": "Nd6K3z1UA+OBonOUnQ5odUjvleTZfSH4rdMQFhPu0Y29JN/iKsCAznpw6vlFvoLa7cqP+/5bQOUlvVJaf/bK6A==",
       "type": "package",
@@ -2374,6 +2446,20 @@
         "gnu-agpl-v3.0.md",
         "itext7.8.0.3.nupkg.sha512",
         "itext7.nuspec"
+      ]
+    },
+    "itext7.bouncy-castle-adapter/8.0.3": {
+      "sha512": "GEUO0qkEdiTW4OX9JqO6tbW1ylH9jrV4jhBpnlipW0OVI6yZoq5aCZ7XRHfTm7SL8oukPcf91c1eJES3wwLz3w==",
+      "type": "package",
+      "path": "itext7.bouncy-castle-adapter/8.0.3",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "ITSC-avatar.png",
+        "LICENSE.md",
+        "gnu-agpl-v3.0.md",
+        "itext7.bouncy-castle-adapter.8.0.3.nupkg.sha512",
+        "itext7.bouncy-castle-adapter.nuspec"
       ]
     },
     "Microsoft.Bcl.AsyncInterfaces/1.1.1": {
@@ -7202,23 +7288,24 @@
     "net8.0": [
       "Microsoft.EntityFrameworkCore.SqlServer >= 8.0.2",
       "Swashbuckle.AspNetCore >= 6.5.0",
-      "itext7 >= 8.0.3"
+      "itext7 >= 8.0.3",
+      "itext7.bouncy-castle-adapter >= 8.0.3"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Mónica Artavia\\.nuget\\packages\\": {}
+    "C:\\Users\\Jennifer Rodriguez\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "F:\\Universidad de Costa Rica\\Verano 3\\API-Beach.SA\\APIHotelBeach\\APIHotelBeach.csproj",
+      "projectUniqueName": "C:\\Users\\Jennifer Rodriguez\\Desktop\\ITM\\Programación avanzada con Asp.net\\Trabajos\\Proyecto final\\API-Beach.SA\\APIHotelBeach\\APIHotelBeach.csproj",
       "projectName": "APIHotelBeach",
-      "projectPath": "F:\\Universidad de Costa Rica\\Verano 3\\API-Beach.SA\\APIHotelBeach\\APIHotelBeach.csproj",
-      "packagesPath": "C:\\Users\\Mónica Artavia\\.nuget\\packages\\",
-      "outputPath": "F:\\Universidad de Costa Rica\\Verano 3\\API-Beach.SA\\APIHotelBeach\\obj\\",
+      "projectPath": "C:\\Users\\Jennifer Rodriguez\\Desktop\\ITM\\Programación avanzada con Asp.net\\Trabajos\\Proyecto final\\API-Beach.SA\\APIHotelBeach\\APIHotelBeach.csproj",
+      "packagesPath": "C:\\Users\\Jennifer Rodriguez\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Jennifer Rodriguez\\Desktop\\ITM\\Programación avanzada con Asp.net\\Trabajos\\Proyecto final\\API-Beach.SA\\APIHotelBeach\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Mónica Artavia\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Jennifer Rodriguez\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -7255,6 +7342,10 @@
           "itext7": {
             "target": "Package",
             "version": "[8.0.3, )"
+          },
+          "itext7.bouncy-castle-adapter": {
+            "target": "Package",
+            "version": "[8.0.3, )"
           }
         },
         "imports": [
@@ -7276,7 +7367,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
