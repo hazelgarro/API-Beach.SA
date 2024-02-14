@@ -7,11 +7,11 @@ namespace APIHotelBeach.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class EmpleadoController : Controller
+    public class EmpleadosController : Controller
     {
         private readonly DbContextHotel _context;
 
-        public EmpleadoController(DbContextHotel pContext)
+        public EmpleadosController(DbContextHotel pContext)
         {
             _context = pContext;
         }//end EmpleadoController

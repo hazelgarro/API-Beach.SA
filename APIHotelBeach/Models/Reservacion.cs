@@ -13,7 +13,7 @@ namespace APIHotelBeach.Models
 
         public string TipoPago { get; set; }
 
-        public DateTime FechaReserva { get; set; }
+        public DateOnly FechaReserva { get; set; }
 
         public int Duracion { get; set; }
 

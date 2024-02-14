@@ -10,7 +10,7 @@
         "dependencies": {
           "Microsoft.EntityFrameworkCore.SqlServer": "8.0.2",
           "Swashbuckle.AspNetCore": "6.5.0",
-          "itext": "8.0.3"
+          "itext7": "8.0.3"
         },
         "runtime": {
           "APIHotelBeach.dll": {}
@@ -125,6 +125,11 @@
             "assemblyVersion": "8.0.3.0",
             "fileVersion": "8.0.3.0"
           }
+        }
+      },
+      "itext7/8.0.3": {
+        "dependencies": {
+          "itext": "8.0.3"
         }
       },
       "Microsoft.Bcl.AsyncInterfaces/1.1.1": {
@@ -1195,6 +1200,13 @@
       "sha512": "sha512-Nd6K3z1UA+OBonOUnQ5odUjvleTZfSH4rdMQFhPu0Y29JN/iKsCAznpw6vlFvoLa7cqP+/5bQOUlvVJaf/bK6A==",
       "path": "itext.commons/8.0.3",
       "hashPath": "itext.commons.8.0.3.nupkg.sha512"
+    },
+    "itext7/8.0.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-cdeEkdomN5tgi2cp2++7onbSSBwIh9FOeTLK297jItA6gbZXsG4FaRg8msvHPbHIBTTivl44mHvi3dEBmY3naQ==",
+      "path": "itext7/8.0.3",
+      "hashPath": "itext7.8.0.3.nupkg.sha512"
     },
     "Microsoft.Bcl.AsyncInterfaces/1.1.1": {
       "type": "package",

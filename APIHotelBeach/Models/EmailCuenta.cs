@@ -4,7 +4,7 @@ using System.Net;
 using System.Text;
 using APIHotelBeach.Models;
 
-namespace ApiHotelBeach.Models
+namespace APIHotelBeach.Models
 {
     public class EmailCuenta
     {
