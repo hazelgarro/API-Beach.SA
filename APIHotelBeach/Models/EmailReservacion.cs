@@ -15,7 +15,7 @@ namespace APIHotelBeach.Models
 {
     public class EmailReservacion
     {
-        public void EnviarPDF(Cliente usuario)
+        public void EnviarPDF(Cliente usuario, Reservacion reservacion)
         {
             try
             {
@@ -24,7 +24,7 @@ namespace APIHotelBeach.Models
                 string htmlBody = File.ReadAllText(pathToTemplate);
 
                 // Generar el PDF
-                byte[] pdfBytes = GenerarPDF(usuario);
+                byte[] pdfBytes = GenerarPDF(reservacion, usuario);
 
                 // Guardar el PDF como un archivo temporal
                 string tempFilePath = Path.GetTempFileName();
@@ -48,8 +48,7 @@ namespace APIHotelBeach.Models
 
                 //html para el body del email
                 htmlBody = htmlBody.Replace("{{Email}}", usuario.Email)
-                               .Replace("{{NombreCompleto}}", usuario.NombreCompleto)
-                               .Replace("{{Password}}", usuario.Password);
+                               .Replace("{{NombreCompleto}}", usuario.NombreCompleto);
 
                 //indicar que el contenido es en html
                 email.IsBodyHtml = true;
@@ -94,7 +93,7 @@ namespace APIHotelBeach.Models
             }
         }
 
-        public byte[] GenerarPDF(Cliente cliente)
+        public byte[] GenerarPDF(Reservacion reservacion, Cliente cliente)
         {
             byte[] pdfBytes;
 
@@ -131,20 +130,17 @@ namespace APIHotelBeach.Models
                     .SetMarginBottom(10);
 
                 // Agregar título
-                Paragraph title = new Paragraph("Hoteles Beach S.A Plataforma Web")
+                Paragraph title = new Paragraph("Hoteles Beach S.A | Factura")
                     .AddStyle(titleStyle);
                 document.Add(title);
 
-                // Agregar texto con estilos
-                document.Add(new Paragraph($"¡Hola, {cliente.NombreCompleto}! ¡Bienvenido a nuestro hotel, esperamos que disfrute su estadia!")
-                    .AddStyle(textStyle));
 
                 // Agregar título de detalles 
                 document.Add(new Paragraph("Detalles de su reservación")
                     .AddStyle(subtitleStyle));
 
                 // Crear tabla para los detalles 
-                Table table = new Table(new float[] { 1, 3 })
+                Table table = new Table(new float[] { 1, 4 })
                     .SetMarginTop(20)
                     .SetWidth(UnitValue.CreatePercentValue(100));
 
@@ -152,30 +148,119 @@ namespace APIHotelBeach.Models
                 table.SetBorder(Border.NO_BORDER);
                 table.SetProperty(Property.BORDER_COLLAPSE, BorderCollapsePropertyValue.COLLAPSE);
 
+                // Tabla para detalles
 
-                // Agregar filas a la tabla con estilos
-                //Email
-                table.AddCell(new Cell().Add(new Paragraph("Email:"))
-                    .SetFontColor(new DeviceRgb(239, 118, 61))
-                    .SetFontSize(14)
-                    .SetBorder(Border.NO_BORDER));
-                table.AddCell(new Cell().Add(new Paragraph(cliente.Email)).AddStyle(textStyle).SetBorder(Border.NO_BORDER));
-
-                //Nombre Completo
-                table.AddCell(new Cell().Add(new Paragraph("Nombre completo:"))
+                //Nombre
+                table.AddCell(new Cell().Add(new Paragraph("Nombre cliente:"))
                     .SetFontColor(new DeviceRgb(239, 118, 61))
                     .SetFontSize(14)
                     .SetBorder(Border.NO_BORDER));
                 table.AddCell(new Cell().Add(new Paragraph(cliente.NombreCompleto)).AddStyle(textStyle).SetBorder(Border.NO_BORDER));
 
-                //Contraseña
-                table.AddCell(new Cell().Add(new Paragraph("Contraseña:"))
+                //Cédula
+                table.AddCell(new Cell().Add(new Paragraph("Cédula cliente:"))
                     .SetFontColor(new DeviceRgb(239, 118, 61))
                     .SetFontSize(14)
                     .SetBorder(Border.NO_BORDER));
-                table.AddCell(new Cell().Add(new Paragraph(cliente.Password)).AddStyle(textStyle).SetBorder(Border.NO_BORDER));
+                table.AddCell(new Cell().Add(new Paragraph(reservacion.CedulaCliente)).AddStyle(textStyle).SetBorder(Border.NO_BORDER));
+
+
+                //Fecha de reservacion
+                table.AddCell(new Cell().Add(new Paragraph("Fecha de reservación:"))
+                    .SetFontColor(new DeviceRgb(239, 118, 61))
+                    .SetFontSize(14)
+                    .SetBorder(Border.NO_BORDER));
+                table.AddCell(new Cell().Add(new Paragraph(reservacion.FechaReserva.ToString("dd/MM/yyyy"))).AddStyle(textStyle).SetBorder(Border.NO_BORDER));
+
+                //Nombre Completo
+                table.AddCell(new Cell().Add(new Paragraph("Duracion:"))
+                    .SetFontColor(new DeviceRgb(239, 118, 61))
+                    .SetFontSize(14)
+                    .SetBorder(Border.NO_BORDER));
+                table.AddCell(new Cell().Add(new Paragraph(reservacion.Duracion.ToString())).AddStyle(textStyle).SetBorder(Border.NO_BORDER));
+
+
+                //Tabla para factura
+                // Agregar título de detalles 
+                document.Add(new Paragraph("Detalles factura")
+                    .AddStyle(subtitleStyle));
+
+                // Crear tabla 
+                Table table2 = new Table(new float[] { 1, 4 })
+                    .SetMarginTop(20)
+                    .SetWidth(UnitValue.CreatePercentValue(100));
+
+                // Establecer los bordes de la tabla y las celdas como invisibles
+                table2.SetBorder(Border.NO_BORDER);
+                table2.SetProperty(Property.BORDER_COLLAPSE, BorderCollapsePropertyValue.COLLAPSE);
+
+                //Subtotal
+                table2.AddCell(new Cell().Add(new Paragraph("Subtotal:"))
+                    .SetFontColor(new DeviceRgb(239, 118, 61))
+                    .SetFontSize(14)
+                    .SetBorder(Border.NO_BORDER));
+                table2.AddCell(new Cell().Add(new Paragraph(reservacion.Subtotal.ToString())).AddStyle(textStyle).SetBorder(Border.NO_BORDER));
+
+                //Impuesto
+                table2.AddCell(new Cell().Add(new Paragraph("Impuesto IVA:"))
+                    .SetFontColor(new DeviceRgb(239, 118, 61))
+                    .SetFontSize(14)
+                    .SetBorder(Border.NO_BORDER));
+                table2.AddCell(new Cell().Add(new Paragraph(reservacion.Impuesto.ToString())).AddStyle(textStyle).SetBorder(Border.NO_BORDER));
+
+                //descuento
+                table2.AddCell(new Cell().Add(new Paragraph("Descuento:"))
+                    .SetFontColor(new DeviceRgb(239, 118, 61))
+                    .SetFontSize(14)
+                    .SetBorder(Border.NO_BORDER));
+                table2.AddCell(new Cell().Add(new Paragraph(reservacion.Descuento.ToString())).AddStyle(textStyle).SetBorder(Border.NO_BORDER));
+
+                //monto total
+                table2.AddCell(new Cell().Add(new Paragraph("Monto total:"))
+                    .SetFontColor(new DeviceRgb(239, 118, 61))
+                    .SetFontSize(14)
+                    .SetBorder(Border.NO_BORDER));
+                table2.AddCell(new Cell().Add(new Paragraph(reservacion.MontoTotal.ToString())).AddStyle(textStyle).SetBorder(Border.NO_BORDER));
+
+                //adelanto
+                table2.AddCell(new Cell().Add(new Paragraph("Adelanto:"))
+                    .SetFontColor(new DeviceRgb(239, 118, 61))
+                    .SetFontSize(14)
+                    .SetBorder(Border.NO_BORDER));
+                table2.AddCell(new Cell().Add(new Paragraph(reservacion.Adelanto.ToString())).AddStyle(textStyle).SetBorder(Border.NO_BORDER));
+
+
+                //Tabla para pago
+                // Agregar título de detalles 
+                document.Add(new Paragraph("Detalles pago")
+                    .AddStyle(subtitleStyle));
+
+                // Crear tabla para los detalles 
+                Table table3 = new Table(new float[] { 1, 4 })
+                    .SetMarginTop(20)
+                    .SetWidth(UnitValue.CreatePercentValue(100));
+
+                //tipo de pago
+                table3.AddCell(new Cell().Add(new Paragraph("Tipo de pago:"))
+                   .SetFontColor(new DeviceRgb(239, 118, 61))
+                   .SetFontSize(14)
+                   .SetBorder(Border.NO_BORDER));
+                table3.AddCell(new Cell().Add(new Paragraph(reservacion.TipoPago)).AddStyle(textStyle).SetBorder(Border.NO_BORDER));
+
+                //adelanto
+                table3.AddCell(new Cell().Add(new Paragraph("Mensualidad:"))
+                   .SetFontColor(new DeviceRgb(239, 118, 61))
+                   .SetFontSize(14)
+                   .SetBorder(Border.NO_BORDER));
+                table3.AddCell(new Cell().Add(new Paragraph(reservacion.MontoMensualidad.ToString())).AddStyle(textStyle).SetBorder(Border.NO_BORDER));
 
                 document.Add(table);
+                document.Add(table2);
+                document.Add(table3);
+
+                //// Agregar texto con estilos
+                document.Add(new Paragraph($"¡Hola, {cliente.NombreCompleto}! ¡Bienvenido a nuestro hotel, esperamos que disfrute su estadia!")
+                    .AddStyle(textStyle));
 
                 // Derechos reservados
                 document.Add(new Paragraph("@2024 | Hoteles Beach S.A.")

@@ -20,12 +20,43 @@ namespace APIHotelBeach.Controllers
             _context = pContext;
         }
 
+
+        //***   MÉTODOS     CRUD ***
+
+        //lista reservaciones
         [HttpGet("ListaReservas")]
         public async Task<List<Reservacion>> ListaReservas()
         {
             var listReservas = await _context.Reservaciones.ToListAsync();
 
             return listReservas;
+        }
+
+        
+
+        //***   MÉTODOS     EMAIL   ***
+        private bool EnviarEmail(Reservacion reservacion, Cliente usuario)
+        {
+            string mensaje = "";
+
+            try
+            {
+                bool enviado = false;
+
+                EmailReservacion email = new EmailReservacion();
+
+                email.EnviarPDF(usuario, reservacion);
+
+                enviado = true;
+
+                return enviado;
+            }
+            catch (Exception e)
+            {
+                mensaje = "Error al enviar el correo " + e.Message;
+
+                return false;
+            }
         }
     }
 }
