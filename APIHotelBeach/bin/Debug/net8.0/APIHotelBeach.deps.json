@@ -10,6 +10,7 @@
         "dependencies": {
           "Microsoft.EntityFrameworkCore.SqlServer": "8.0.2",
           "Swashbuckle.AspNetCore": "6.5.0",
+          "itext.bouncy-castle-adapter": "8.0.3",
           "itext7": "8.0.3"
         },
         "runtime": {
@@ -47,6 +48,14 @@
           "lib/netstandard2.0/Azure.Identity.dll": {
             "assemblyVersion": "1.10.3.0",
             "fileVersion": "1.1000.323.51804"
+          }
+        }
+      },
+      "BouncyCastle.Cryptography/2.2.1": {
+        "runtime": {
+          "lib/net6.0/BouncyCastle.Cryptography.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.2.1.47552"
           }
         }
       },
@@ -110,6 +119,18 @@
             "fileVersion": "8.0.3.0"
           },
           "lib/netstandard2.0/itext.svg.dll": {
+            "assemblyVersion": "8.0.3.0",
+            "fileVersion": "8.0.3.0"
+          }
+        }
+      },
+      "itext.bouncy-castle-adapter/8.0.3": {
+        "dependencies": {
+          "BouncyCastle.Cryptography": "2.2.1",
+          "itext.commons": "8.0.3"
+        },
+        "runtime": {
+          "lib/netstandard2.0/itext.bouncy-castle-adapter.dll": {
             "assemblyVersion": "8.0.3.0",
             "fileVersion": "8.0.3.0"
           }
@@ -1187,12 +1208,26 @@
       "path": "azure.identity/1.10.3",
       "hashPath": "azure.identity.1.10.3.nupkg.sha512"
     },
+    "BouncyCastle.Cryptography/2.2.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-A6Zr52zVqJKt18ZBsTnX0qhG0kwIQftVAjLmszmkiR/trSp8H+xj1gUOzk7XHwaKgyREMSV1v9XaKrBUeIOdvQ==",
+      "path": "bouncycastle.cryptography/2.2.1",
+      "hashPath": "bouncycastle.cryptography.2.2.1.nupkg.sha512"
+    },
     "itext/8.0.3": {
       "type": "package",
       "serviceable": true,
       "sha512": "sha512-Qm6WtQ7sTWW95FIPYCNnQwOCesQQk1HoJ7Gpdn/xWGWf1p392NKwwmtovzUeV9zbACV0yae3LVcT9z9azIU6hQ==",
       "path": "itext/8.0.3",
       "hashPath": "itext.8.0.3.nupkg.sha512"
+    },
+    "itext.bouncy-castle-adapter/8.0.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Al6JpWVyfESsU3wqjV5lEyD/921PLk7HBj1OlQOhBqx82JeA8popny5ryMWZjtxmDtuaWwrjKB8CPQ2mvH5Afw==",
+      "path": "itext.bouncy-castle-adapter/8.0.3",
+      "hashPath": "itext.bouncy-castle-adapter.8.0.3.nupkg.sha512"
     },
     "itext.commons/8.0.3": {
       "type": "package",

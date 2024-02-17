@@ -189,12 +189,6 @@
           "itext": "8.0.3"
         }
       },
-      "itext7.bouncy-castle-adapter/8.0.3": {
-        "type": "package",
-        "dependencies": {
-          "itext.bouncy-castle-adapter": "8.0.3"
-        }
-      },
       "Microsoft.Bcl.AsyncInterfaces/1.1.1": {
         "type": "package",
         "compile": {
@@ -2446,20 +2440,6 @@
         "gnu-agpl-v3.0.md",
         "itext7.8.0.3.nupkg.sha512",
         "itext7.nuspec"
-      ]
-    },
-    "itext7.bouncy-castle-adapter/8.0.3": {
-      "sha512": "GEUO0qkEdiTW4OX9JqO6tbW1ylH9jrV4jhBpnlipW0OVI6yZoq5aCZ7XRHfTm7SL8oukPcf91c1eJES3wwLz3w==",
-      "type": "package",
-      "path": "itext7.bouncy-castle-adapter/8.0.3",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "ITSC-avatar.png",
-        "LICENSE.md",
-        "gnu-agpl-v3.0.md",
-        "itext7.bouncy-castle-adapter.8.0.3.nupkg.sha512",
-        "itext7.bouncy-castle-adapter.nuspec"
       ]
     },
     "Microsoft.Bcl.AsyncInterfaces/1.1.1": {
@@ -7288,24 +7268,24 @@
     "net8.0": [
       "Microsoft.EntityFrameworkCore.SqlServer >= 8.0.2",
       "Swashbuckle.AspNetCore >= 6.5.0",
-      "itext7 >= 8.0.3",
-      "itext7.bouncy-castle-adapter >= 8.0.3"
+      "itext.bouncy-castle-adapter >= 8.0.3",
+      "itext7 >= 8.0.3"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Jennifer Rodriguez\\.nuget\\packages\\": {}
+    "C:\\Users\\Mónica Artavia\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Jennifer Rodriguez\\Desktop\\ITM\\Programación avanzada con Asp.net\\Trabajos\\Proyecto final\\API-Beach.SA\\APIHotelBeach\\APIHotelBeach.csproj",
+      "projectUniqueName": "F:\\Universidad de Costa Rica\\Verano 3\\API-Beach.SA\\APIHotelBeach\\APIHotelBeach.csproj",
       "projectName": "APIHotelBeach",
-      "projectPath": "C:\\Users\\Jennifer Rodriguez\\Desktop\\ITM\\Programación avanzada con Asp.net\\Trabajos\\Proyecto final\\API-Beach.SA\\APIHotelBeach\\APIHotelBeach.csproj",
-      "packagesPath": "C:\\Users\\Jennifer Rodriguez\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Jennifer Rodriguez\\Desktop\\ITM\\Programación avanzada con Asp.net\\Trabajos\\Proyecto final\\API-Beach.SA\\APIHotelBeach\\obj\\",
+      "projectPath": "F:\\Universidad de Costa Rica\\Verano 3\\API-Beach.SA\\APIHotelBeach\\APIHotelBeach.csproj",
+      "packagesPath": "C:\\Users\\Mónica Artavia\\.nuget\\packages\\",
+      "outputPath": "F:\\Universidad de Costa Rica\\Verano 3\\API-Beach.SA\\APIHotelBeach\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Jennifer Rodriguez\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Mónica Artavia\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -7339,11 +7319,11 @@
             "target": "Package",
             "version": "[6.5.0, )"
           },
-          "itext7": {
+          "itext.bouncy-castle-adapter": {
             "target": "Package",
             "version": "[8.0.3, )"
           },
-          "itext7.bouncy-castle-adapter": {
+          "itext7": {
             "target": "Package",
             "version": "[8.0.3, )"
           }
@@ -7367,7 +7347,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
