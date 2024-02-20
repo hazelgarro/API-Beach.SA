@@ -1,8 +1,10 @@
 ﻿using APIHotelBeach.Context;
 using APIHotelBeach.Models;
 using iText.Commons.Actions.Contexts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.Metrics;
 
 namespace APIHotelBeach.Controllers
 {
@@ -23,7 +25,7 @@ namespace APIHotelBeach.Controllers
 
         //***   MÉTODOS     CRUD ***
 
-        //lista reservaciones
+        //lista de todas las reservaciones
         [HttpGet("ListaReservas")]
         public async Task<List<Reservacion>> ListaReservas()
         {
@@ -32,6 +34,26 @@ namespace APIHotelBeach.Controllers
             return listReservas;
         }
 
+        //lista de reservaciones de un cliente especifico
+        [HttpGet("ListaReservasCliente")]
+        public async Task<List<Reservacion>> ListaReservasCliente(string cedula)
+        {
+            var listReservas = await _context.Reservaciones.ToListAsync();
+
+            List<Reservacion> listReservacionesCliente = new List<Reservacion>();
+
+            foreach (var reservacion in listReservas)
+            {
+                if (reservacion.CedulaCliente.Equals(cedula))
+                {
+                    listReservacionesCliente.Add(reservacion);
+                }
+            }
+
+            return listReservacionesCliente;
+        }
+
+        //Agregar
         [HttpPost("Agregar")]
         public async Task<string> Agregar(Reservacion pReserva)
         {
@@ -138,6 +160,94 @@ namespace APIHotelBeach.Controllers
                         mensaje = "Paquete no encontrado";
                     }
                 }
+                else
+                {
+                    mensaje = "Cliente no encontrado";
+                }
+            }
+            catch (Exception ex)
+            {
+                mensaje = "Error: " + ex.Message + ", informacion: " + ex.InnerException;
+            }
+
+            return mensaje;
+        }
+
+        //Editar
+        //[Authorize]
+        [HttpPut("Editar")]
+        public async Task<string> Editar(Reservacion pReserva)
+        {
+            string mensaje = "";
+            bool clienteEncontrado = false;
+            bool paqueteEncontrado = false;
+            decimal porcAdelanto = 0;
+            decimal montoConDescuento = 0;
+            int meses = 0;
+
+            try
+            {
+                var clientes = await _context.Clientes.ToListAsync();
+                clienteEncontrado = clientes.Any(c => c.Cedula == pReserva.CedulaCliente);
+                
+                if(clienteEncontrado)
+                {
+                    var paquetes = await _context.Paquetes.ToListAsync();
+                    var paquete = paquetes.FirstOrDefault(p => p.ID == pReserva.IdPaquete);
+
+                    if (paquete != null)
+                    {
+                        paqueteEncontrado = true;
+                        pReserva.Subtotal = paquete.Precio;
+                        pReserva.Impuesto = (pReserva.Subtotal * 100) / paquete.PorcentajePrima;
+                        porcAdelanto = paquete.PorcentajePrima;
+                        meses = paquete.LimiteMeses;
+
+                        switch (pReserva.Duracion)
+                        {
+                            case >= 3 and <= 6:
+                                pReserva.Descuento = (pReserva.Subtotal * 100) / 10;
+                                break;
+                            case >= 7 and <= 9:
+                                pReserva.Descuento = (pReserva.Subtotal * 100) / 15;
+                                break;
+                            case >= 10 and <= 12:
+                                pReserva.Descuento = (pReserva.Subtotal * 100) / 20;
+                                break;
+                            case >= 13:
+                                pReserva.Descuento = (pReserva.Subtotal * 100) / 25;
+                                break;
+                            default:
+                                pReserva.Descuento = 0;
+                                break;
+                        }
+
+                        if (pReserva.Descuento > 0)
+                        {
+                            montoConDescuento = pReserva.Subtotal - pReserva.Descuento;
+                            pReserva.MontoTotal = montoConDescuento + pReserva.Impuesto;
+                        }
+                        else
+                        {
+                            pReserva.MontoTotal = pReserva.Subtotal + pReserva.Impuesto;
+                        }
+
+                        pReserva.Adelanto = (pReserva.MontoTotal * 100) / porcAdelanto;
+
+                        pReserva.MontoMensualidad = (pReserva.MontoTotal - pReserva.Adelanto) / meses;
+
+
+                        _context.Reservaciones.Update(pReserva);
+                        _context.SaveChanges();
+
+                        mensaje = "Reservacion agregada correctamente";
+
+                    }
+                    else
+                    {
+                        mensaje = "Paquete no encontrado";
+                    }
+                } 
                 else
                 {
                     mensaje = "Cliente no encontrado";
