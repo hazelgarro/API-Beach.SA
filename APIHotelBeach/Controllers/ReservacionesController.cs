@@ -8,6 +8,8 @@ using System.Diagnostics.Metrics;
 
 namespace APIHotelBeach.Controllers
 {
+    [ApiController]
+    [Route("[controller]")]
     public class ReservacionesController : Controller
     {
 
@@ -21,7 +23,6 @@ namespace APIHotelBeach.Controllers
         {
             _context = pContext;
         }
-
 
         //***   MÉTODOS     CRUD ***
 
@@ -91,8 +92,8 @@ namespace APIHotelBeach.Controllers
                         if (pReserva.IdPaquete.Equals(item.ID))
                         {
                             paqueteEncontrado = true;
-                            pReserva.Subtotal = item.Precio;
-                            pReserva.Impuesto = (pReserva.Subtotal * 100) / item.PorcentajePrima;
+                            pReserva.Subtotal = item.Precio * pReserva.Duracion;
+                            pReserva.Impuesto = (pReserva.Subtotal * 13) / 100;
                             porcAdelanto = item.PorcentajePrima;
                             meses = item.LimiteMeses;
 
@@ -100,25 +101,25 @@ namespace APIHotelBeach.Controllers
                             {
                                 if (pReserva.Duracion >= 3 && pReserva.Duracion <= 6)
                                 {
-                                    pReserva.Descuento = (pReserva.Subtotal * 100) / 10;
+                                    pReserva.Descuento = (pReserva.Subtotal * 10) / 100;
                                 }
                                 else
                                 {
                                     if (pReserva.Duracion >= 7 && pReserva.Duracion <= 9)
                                     {
-                                        pReserva.Descuento = (pReserva.Subtotal * 100) / 15;
+                                        pReserva.Descuento = (pReserva.Subtotal * 15) / 100;
                                     }
                                     else
                                     {
                                         if (pReserva.Duracion >= 10 && pReserva.Duracion <= 12)
                                         {
-                                            pReserva.Descuento = (pReserva.Subtotal * 100) / 20;
+                                            pReserva.Descuento = (pReserva.Subtotal * 20) / 100;
                                         }
                                         else
                                         {
                                             if (pReserva.Duracion >= 13)
                                             {
-                                                pReserva.Descuento = (pReserva.Subtotal * 100) / 25;
+                                                pReserva.Descuento = (pReserva.Subtotal * 25) / 100;
                                             }
                                         }
                                     }
@@ -142,7 +143,7 @@ namespace APIHotelBeach.Controllers
                     pReserva.MontoTotal = pReserva.Subtotal + pReserva.Impuesto;
                 }
 
-                pReserva.Adelanto = (pReserva.MontoTotal * 100) / porcAdelanto;
+                pReserva.Adelanto = (pReserva.MontoTotal * porcAdelanto) / 100;
 
                 pReserva.MontoMensualidad = (pReserva.MontoTotal - pReserva.Adelanto) / meses;
 
@@ -198,28 +199,31 @@ namespace APIHotelBeach.Controllers
                     if (paquete != null)
                     {
                         paqueteEncontrado = true;
-                        pReserva.Subtotal = paquete.Precio;
-                        pReserva.Impuesto = (pReserva.Subtotal * 100) / paquete.PorcentajePrima;
+                        pReserva.Subtotal = paquete.Precio * pReserva.Duracion;
+                        pReserva.Impuesto = (pReserva.Subtotal * 13) / 100;
                         porcAdelanto = paquete.PorcentajePrima;
                         meses = paquete.LimiteMeses;
 
-                        switch (pReserva.Duracion)
+                        if (pReserva.TipoPago.Equals("Efectivo"))
                         {
-                            case >= 3 and <= 6:
-                                pReserva.Descuento = (pReserva.Subtotal * 100) / 10;
-                                break;
-                            case >= 7 and <= 9:
-                                pReserva.Descuento = (pReserva.Subtotal * 100) / 15;
-                                break;
-                            case >= 10 and <= 12:
-                                pReserva.Descuento = (pReserva.Subtotal * 100) / 20;
-                                break;
-                            case >= 13:
-                                pReserva.Descuento = (pReserva.Subtotal * 100) / 25;
-                                break;
-                            default:
-                                pReserva.Descuento = 0;
-                                break;
+                            switch (pReserva.Duracion)
+                            {
+                                case >= 3 and <= 6:
+                                    pReserva.Descuento = (pReserva.Subtotal * 10) / 100;
+                                    break;
+                                case >= 7 and <= 9:
+                                    pReserva.Descuento = (pReserva.Subtotal * 15) / 100;
+                                    break;
+                                case >= 10 and <= 12:
+                                    pReserva.Descuento = (pReserva.Subtotal * 20) / 100;
+                                    break;
+                                case >= 13:
+                                    pReserva.Descuento = (pReserva.Subtotal * 25) / 100;
+                                    break;
+                                default:
+                                    pReserva.Descuento = 0;
+                                    break;
+                            }
                         }
 
                         if (pReserva.Descuento > 0)
@@ -232,7 +236,7 @@ namespace APIHotelBeach.Controllers
                             pReserva.MontoTotal = pReserva.Subtotal + pReserva.Impuesto;
                         }
 
-                        pReserva.Adelanto = (pReserva.MontoTotal * 100) / porcAdelanto;
+                        pReserva.Adelanto = (pReserva.MontoTotal * porcAdelanto) / 100;
 
                         pReserva.MontoMensualidad = (pReserva.MontoTotal - pReserva.Adelanto) / meses;
 
@@ -240,7 +244,7 @@ namespace APIHotelBeach.Controllers
                         _context.Reservaciones.Update(pReserva);
                         _context.SaveChanges();
 
-                        mensaje = "Reservacion agregada correctamente";
+                        mensaje = "Reservacion modificada correctamente";
 
                     }
                     else

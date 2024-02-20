@@ -12,10 +12,10 @@ namespace APIHotelBeach.Models
         public string NombrePaquete { get; set; }
 
         [Required]
-        public int Precio { get; set; }
+        public decimal Precio { get; set; }
 
         [Required]
-        public int PorcentajePrima { get; set; }
+        public decimal PorcentajePrima { get; set; }
 
         [Required]
         public int LimiteMeses { get; set; }
