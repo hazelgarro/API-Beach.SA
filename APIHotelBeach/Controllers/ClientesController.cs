@@ -21,6 +21,22 @@ namespace APIHotelBeach.Controllers
 
         //***   MÉTODOS  CRUD   ***
 
+        //[Authorize]
+        [HttpGet("Listado")]
+        public async Task<List<Cliente>> Index()
+        {
+            var list = await _context.Clientes.ToListAsync();
+
+            if (list == null)
+            {
+                return new List<Cliente>();
+            }
+            else
+            {
+                return list;
+            }
+        }
+
         //Registrar cliente
         //[Äuthorize]
         [HttpPost("CrearCuenta")]

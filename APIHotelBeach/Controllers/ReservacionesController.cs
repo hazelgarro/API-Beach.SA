@@ -265,7 +265,30 @@ namespace APIHotelBeach.Controllers
             return mensaje;
         }
 
+        //[Authorize]
+        [HttpDelete("Eliminar")]
+        public async Task<string> Eliminar(int id)
+        {
+            string mensaje = "No se eliminó la reservación";
 
+            try
+            {
+                var temp = await _context.Reservaciones.FirstOrDefaultAsync(f => f.Id == id);
+
+                if (temp != null)
+                {
+                    _context.Reservaciones.Remove(temp);
+                    _context.SaveChanges();
+
+                    mensaje = "Reservación eliminada correctamente";
+                }
+            }
+            catch (Exception ex)
+            {
+                mensaje += ex.Message;
+            }
+            return mensaje;
+        }
 
         //***   MÉTODOS     EMAIL   ***
         private bool EnviarEmail(Reservacion reservacion, Cliente usuario)
