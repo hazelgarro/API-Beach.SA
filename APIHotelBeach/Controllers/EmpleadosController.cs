@@ -46,7 +46,6 @@ namespace APIHotelBeach.Controllers
         }//end Consultar
 
 
-        //[Authorize]
         [HttpPost("Agregar")]
         public string Agregar(Empleado empleado)
         {
