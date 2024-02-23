@@ -54,9 +54,9 @@ namespace APIHotelBeach.Controllers
             return listReservacionesCliente;
         }
 
-        //Agregar
-        [HttpPost("Agregar")]
-        public async Task<string> Agregar(Reservacion pReserva)
+        //Agregar reservacion
+        [HttpPost("AgregarReserva")]
+        public async Task<string> AgregarReserva(Reservacion pReserva)
         {
             string mensaje = "";
             decimal montoConDescuento = 0;
@@ -66,10 +66,18 @@ namespace APIHotelBeach.Controllers
             bool paqueteEncontrado = false;
             string emailGuardar = " ";
             string nombreCliente = " ";
+            int ultimoId = 0;
 
             try
             {
-                pReserva.Id = 0;
+                var reservas = await _context.Reservaciones.ToListAsync();
+
+                foreach (var reservacion in reservas)
+                {
+                    ultimoId = reservacion.Id;
+                }
+
+                pReserva.Id = ultimoId + 1;
 
                 var clientes = await _context.Clientes.ToListAsync();
 
@@ -155,6 +163,7 @@ namespace APIHotelBeach.Controllers
                 {
                     ReservaClienteEmail reservaClienteEmail = new ReservaClienteEmail();
 
+                    reservaClienteEmail.Id = pReserva.Id;
                     reservaClienteEmail.CedulaCliente = pReserva.CedulaCliente;
                     reservaClienteEmail.Email = emailGuardar;
                     reservaClienteEmail.NombreCompleto = nombreCliente;
@@ -174,13 +183,20 @@ namespace APIHotelBeach.Controllers
                         _context.Reservaciones.Add(pReserva);
                         await _context.SaveChangesAsync();
 
-                        if (EnviarEmail(reservaClienteEmail))
+                        if (pReserva.TipoPago.Equals("Cheque"))
                         {
-                            mensaje = "Reservacion agregada correctamente.";
+                            mensaje = "Reservacion agregada correctamente sin envío de email aún.";
                         }
                         else
                         {
-                            mensaje = "Reservacion agregada correctamente, pero el email no pudo ser enviado.";
+                            if (EnviarEmail(reservaClienteEmail))
+                            {
+                                mensaje = "Reservacion agregada correctamente.";
+                            }
+                            else
+                            {
+                                mensaje = "Reservacion agregada correctamente, pero el email no pudo ser enviado.";
+                            }
                         }
                     }
                     else
@@ -196,6 +212,88 @@ namespace APIHotelBeach.Controllers
             catch (Exception ex)
             {
                 mensaje = "Error: " + ex.Message + ", informacion: " + ex.InnerException;
+            }
+
+            return mensaje;
+        }
+
+        //Agregar cheque
+        [HttpPost("AgregarCheque")]
+        public async Task<string> AgregarCheque(Cheque pCheque)
+        {
+            string mensaje = "";
+            ReservaPDFCheque reservaPDFCheque = new ReservaPDFCheque();
+            bool clienteEncontrado = false;
+            string emailGuardar = " ";
+            string nombreCliente = " ";
+
+            try
+            {
+                var reservas = await _context.Reservaciones.ToListAsync();
+                foreach (var item in reservas)
+                {
+                    if (pCheque.IdReservacion == item.Id)
+                    {
+                        if (item.TipoPago.Equals("Cheque"))
+                        {
+                            var clientes = await _context.Clientes.ToListAsync();
+
+                            foreach (var value in clientes)
+                            {
+                                if (!clienteEncontrado)
+                                {
+                                    if (item.CedulaCliente.Equals(value.Cedula))
+                                    {
+                                        clienteEncontrado = true;
+                                        emailGuardar = value.Email;
+                                        nombreCliente = value.NombreCompleto;
+                                    }
+                                }
+                            }
+
+                            reservaPDFCheque = new ReservaPDFCheque();
+
+                            reservaPDFCheque.CedulaCliente = item.CedulaCliente;
+                            reservaPDFCheque.Email = emailGuardar;
+                            reservaPDFCheque.NombreCompleto = nombreCliente;
+                            reservaPDFCheque.IdPaquete = item.IdPaquete;
+                            reservaPDFCheque.TipoPago = item.TipoPago;
+                            reservaPDFCheque.FechaReserva = item.FechaReserva;
+                            reservaPDFCheque.Duracion = item.Duracion;
+                            reservaPDFCheque.Subtotal = item.Subtotal;
+                            reservaPDFCheque.Impuesto = item.Impuesto;
+                            reservaPDFCheque.Descuento = item.Descuento;
+                            reservaPDFCheque.MontoTotal = item.MontoTotal;
+                            reservaPDFCheque.Adelanto = item.Adelanto;
+                            reservaPDFCheque.MontoMensualidad = item.MontoMensualidad;
+                            reservaPDFCheque.NumeroCheque = pCheque.NumeroCheque;
+                            reservaPDFCheque.NombreBanco = pCheque.NombreBanco;
+
+                        }
+                        else
+                        {
+                            mensaje = "Los datos no coinciden";
+                        }
+                    }
+                }
+
+                _context.Cheques.Add(pCheque);
+                _context.SaveChanges();
+
+                if (EnviarEmailC(reservaPDFCheque))
+                {
+                    mensaje = "Cheque y reservacion agregada correctamente.";
+                }
+                else
+                {
+                    mensaje = "Cheque y reservacion agregada correctamente, pero el email no pudo ser enviado.";
+                }
+               
+                
+            }
+            catch (Exception ex)
+            {
+                mensaje = "Error: " + ex.Message + " " + ex.InnerException.ToString;
             }
 
             return mensaje;
@@ -317,6 +415,7 @@ namespace APIHotelBeach.Controllers
             return mensaje;
         }
 
+
         //***   MÉTODOS     EMAIL   ***
         private bool EnviarEmail(ReservaClienteEmail reservaClienteEmail)
         {
@@ -328,10 +427,31 @@ namespace APIHotelBeach.Controllers
 
                 EmailReservacion email = new EmailReservacion();
 
-                string numeroCheque = "";
-                string nombreBanco = "";
+                email.EnviarPDF(reservaClienteEmail);
 
-                email.EnviarPDF(reservaClienteEmail, numeroCheque, nombreBanco);
+                enviado = true;
+
+                return enviado;
+            }
+            catch (Exception e)
+            {
+                mensaje = "Error al enviar el correo " + e.Message;
+
+                return false;
+            }
+        }
+
+        private bool EnviarEmailC(ReservaPDFCheque reservaPDFCheque)
+        {
+            string mensaje = "";
+
+            try
+            {
+                bool enviado = false;
+
+                EmailReservacion email = new EmailReservacion();
+
+                email.EnviarPDFC(reservaPDFCheque);
 
                 enviado = true;
 

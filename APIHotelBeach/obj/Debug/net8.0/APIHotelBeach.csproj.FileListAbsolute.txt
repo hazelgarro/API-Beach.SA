@@ -509,3 +509,4 @@ C:\Users\Jennifer Rodriguez\Desktop\ITM\Programación avanzada con Asp.net\Traba
 C:\Users\Jennifer Rodriguez\Desktop\ITM\Programación avanzada con Asp.net\Trabajos\Proyecto final\API-Beach.SA\APIHotelBeach\obj\Debug\net8.0\APIHotelBeach.genruntimeconfig.cache
 C:\Users\Jennifer Rodriguez\Desktop\ITM\Programación avanzada con Asp.net\Trabajos\Proyecto final\API-Beach.SA\APIHotelBeach\obj\Debug\net8.0\ref\APIHotelBeach.dll
 C:\Users\Jennifer Rodriguez\Desktop\ITM\Programación avanzada con Asp.net\Trabajos\Proyecto final\API-Beach.SA\APIHotelBeach\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+F:\Universidad de Costa Rica\Verano 3\Proyecto\API-Beach.SA\APIHotelBeach\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
