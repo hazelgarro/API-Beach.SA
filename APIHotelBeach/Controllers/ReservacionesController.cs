@@ -64,6 +64,8 @@ namespace APIHotelBeach.Controllers
             int meses = 0;
             bool clienteEncontrado = false;
             bool paqueteEncontrado = false;
+            string emailGuardar = " ";
+            string nombreCliente = " ";
 
             try
             {
@@ -78,9 +80,11 @@ namespace APIHotelBeach.Controllers
                         if (pReserva.CedulaCliente.Equals(item.Cedula))
                         {
                             clienteEncontrado = true;
+                            emailGuardar = item.Email;
+                            nombreCliente = item.NombreCompleto;
                         }
                     }
-                    
+
                 }
 
                 var paquetes = await _context.Paquetes.ToListAsync();
@@ -149,12 +153,35 @@ namespace APIHotelBeach.Controllers
 
                 if (clienteEncontrado)
                 {
+                    ReservaClienteEmail reservaClienteEmail = new ReservaClienteEmail();
+
+                    reservaClienteEmail.CedulaCliente = pReserva.CedulaCliente;
+                    reservaClienteEmail.Email = emailGuardar;
+                    reservaClienteEmail.NombreCompleto = nombreCliente;
+                    reservaClienteEmail.IdPaquete = pReserva.IdPaquete;
+                    reservaClienteEmail.TipoPago = pReserva.TipoPago;
+                    reservaClienteEmail.FechaReserva = pReserva.FechaReserva;
+                    reservaClienteEmail.Duracion = pReserva.Duracion;
+                    reservaClienteEmail.Subtotal = pReserva.Subtotal;
+                    reservaClienteEmail.Impuesto = pReserva.Impuesto;
+                    reservaClienteEmail.Descuento = pReserva.Descuento;
+                    reservaClienteEmail.MontoTotal = pReserva.MontoTotal;
+                    reservaClienteEmail.Adelanto = pReserva.Adelanto;
+                    reservaClienteEmail.MontoMensualidad = pReserva.MontoMensualidad;
+
                     if (paqueteEncontrado)
                     {
                         _context.Reservaciones.Add(pReserva);
-                        _context.SaveChanges();
+                        await _context.SaveChangesAsync();
 
-                        mensaje = "Reservacion agregada correctamente";
+                        if (EnviarEmail(reservaClienteEmail))
+                        {
+                            mensaje = "Reservacion agregada correctamente.";
+                        }
+                        else
+                        {
+                            mensaje = "Reservacion agregada correctamente, pero el email no pudo ser enviado.";
+                        }
                     }
                     else
                     {
@@ -291,7 +318,7 @@ namespace APIHotelBeach.Controllers
         }
 
         //***   MÉTODOS     EMAIL   ***
-        private bool EnviarEmail(Reservacion reservacion, Cliente usuario)
+        private bool EnviarEmail(ReservaClienteEmail reservaClienteEmail)
         {
             string mensaje = "";
 
@@ -301,7 +328,7 @@ namespace APIHotelBeach.Controllers
 
                 EmailReservacion email = new EmailReservacion();
 
-                email.EnviarPDF(usuario, reservacion);
+                email.EnviarPDF(reservaClienteEmail);
 
                 enviado = true;
 
