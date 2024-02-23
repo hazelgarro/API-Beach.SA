@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using APIHotelBeach.Models;
 using APIHotelBeach.Context;
 using iText.Commons.Actions.Contexts;
+using APIHotelBeach.Services;
 
 namespace APIHotelBeach.Controllers
 {
@@ -13,10 +14,12 @@ namespace APIHotelBeach.Controllers
     {
 
         private readonly DbContextHotel _context;
+        private readonly IAutorizacionServices autorizacionService;
 
-        public ClientesController(DbContextHotel pContext)
+        public ClientesController(DbContextHotel pContext, IAutorizacionServices autorizacionService)
         {
             _context = pContext;
+            this.autorizacionService = autorizacionService;
         }
 
         //***   MÉTODOS  CRUD   ***
@@ -43,6 +46,8 @@ namespace APIHotelBeach.Controllers
         public string CrearCuenta(Cliente cliente)
         {
             string mensaje = "";
+
+            cliente.Password = GenerarPassword();
 
             if (cliente != null)
             {
@@ -99,6 +104,31 @@ namespace APIHotelBeach.Controllers
             }
             return msj;
         }//end modificar
+
+        //eliminar cliente
+        [HttpDelete("EliminarCliente")]
+        public async Task<string> Eliminar(string vCedula)
+        {
+            string mensaje = "No se ha podido eliminar el cliente";
+            try
+            {
+                var data = await _context.Clientes.FirstOrDefaultAsync(f => f.Cedula == vCedula);
+
+                if (data != null)
+                {
+                    _context.Clientes.Remove(data);
+                    _context.SaveChanges();
+
+                    mensaje = "Cliente " + data.NombreCompleto + " eliminado correctamente";
+                }
+            }
+            catch (Exception ex)
+            {
+                mensaje = "Error: " + ex.Message;
+            }
+
+            return mensaje;
+        }
 
 
 
@@ -163,48 +193,32 @@ namespace APIHotelBeach.Controllers
         }
 
 
-        //eliminar cliente
-        [HttpDelete("EliminarCliente")]
-        public async Task<string> Eliminar(string vCedula)
+        //***   MÉTODOS  AUTENTICACION    ****
+
+        //validar email y password
+        [HttpPost]
+        [Route("AutenticarPW")]
+        public async Task<IActionResult> AutenticarPW(string email, string password)
         {
-            string mensaje = "No se ha podido eliminar el cliente";
-            try
+            var temp = await _context.Clientes.FirstOrDefaultAsync(u => (u.Email.Equals(email)) && (u.Password.Equals(password)));
+
+            if (temp == null)
             {
-                var data = await _context.Clientes.FirstOrDefaultAsync(f => f.Cedula == vCedula);
+                return Unauthorized();
+            }
+            else
+            {
+                var autorizado = await autorizacionService.DevolverToken(temp);
 
-                if (data != null)
+                if (autorizado == null)
                 {
-                    _context.Clientes.Remove(data);
-                    _context.SaveChanges();
-
-                    mensaje = "Cliente " + data.NombreCompleto + " eliminado correctamente";
+                    return Unauthorized();
+                }
+                else
+                {
+                    return Ok(autorizado);
                 }
             }
-            catch (Exception ex)
-            {
-                mensaje = "Error: " + ex.Message;
-            }
-
-            return mensaje;
-        }
-
-
-        //Verificar si el cliente ha restablecido contraseña
-        private bool VerificarRestablecer(Cliente temp)
-        {
-            bool verificado = false;
-
-            var cliente = _context.Clientes.FirstOrDefault(c => c.Email == temp.Email);
-
-            if (cliente != null)
-            {
-                if (cliente.Restablecer == 0)
-                {
-                    verificado = true;
-                }
-            }
-
-            return verificado;
         }
 
 
