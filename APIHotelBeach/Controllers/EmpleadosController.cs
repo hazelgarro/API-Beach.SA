@@ -1,5 +1,6 @@
 ﻿using APIHotelBeach.Context;
 using APIHotelBeach.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,7 +18,7 @@ namespace APIHotelBeach.Controllers
         }//end EmpleadoController
 
 
-        //[Authorize] 
+        [Authorize] 
         [HttpGet("Listado")]
         public async Task<List<Empleado>> Listado()
         {
@@ -32,7 +33,7 @@ namespace APIHotelBeach.Controllers
             }//end if/else
         }//end Listado
 
-        //[Authorize]
+        [Authorize]
         [HttpGet("Consultar")]
         public async Task<Empleado> Consultar(int ID)
         {
@@ -40,6 +41,8 @@ namespace APIHotelBeach.Controllers
             return temp;
         }//end Consultar
 
+
+        [Authorize]
         [HttpPost("Agregar")]
         public string Agregar(Empleado empleado)
         {
@@ -59,7 +62,7 @@ namespace APIHotelBeach.Controllers
             return msj;
         }//end Agregar
 
-        //[Authorize]
+        [Authorize]
         [HttpPut("Modificar")]
         public string Modificar(Empleado empleado)
         {
@@ -77,7 +80,7 @@ namespace APIHotelBeach.Controllers
             return msj;
         }//end modificar
 
-        //[Authorize]
+        [Authorize]
         [HttpDelete("Eliminar")]
         public async Task<string> Eliminar(int ID)
         {
