@@ -15,7 +15,7 @@ namespace APIHotelBeach.Models
 {
     public class EmailReservacion
     {
-        public void EnviarPDF(ReservaClienteEmail reservaClienteEmail)
+        public void EnviarPDF(ReservaClienteEmail reservaClienteEmail, string numeroCheque, string nombreBanco)
         {
             try
             {
@@ -24,7 +24,7 @@ namespace APIHotelBeach.Models
                 string htmlBody = File.ReadAllText(pathToTemplate);
 
                 // Generar el PDF
-                byte[] pdfBytes = GenerarPDF(reservaClienteEmail);
+                byte[] pdfBytes = GenerarPDF(reservaClienteEmail, numeroCheque, nombreBanco);
 
                 // Guardar el PDF como un archivo temporal
                 string tempFilePath = Path.GetTempFileName();
@@ -93,7 +93,7 @@ namespace APIHotelBeach.Models
             }
         }
 
-        public byte[] GenerarPDF(ReservaClienteEmail reservaClienteEmail)
+        public byte[] GenerarPDF(ReservaClienteEmail reservaClienteEmail, string numeroCheque, string nombreBanco)
         {
             byte[] pdfBytes;
 
@@ -249,23 +249,26 @@ namespace APIHotelBeach.Models
                 table3.SetBorder(Border.NO_BORDER);
                 table3.SetProperty(Property.BORDER_COLLAPSE, BorderCollapsePropertyValue.COLLAPSE);
 
-                // Tabla para detalles del pago
+                table3.AddCell(new Cell().Add(new Paragraph("Tipo pago:"))
+                .SetFontColor(new DeviceRgb(239, 118, 61))
+                .SetFontSize(14)
+                .SetBorder(Border.NO_BORDER));
+                table3.AddCell(new Cell().Add(new Paragraph(reservaClienteEmail.TipoPago.ToString())).AddStyle(textStyle).SetBorder(Border.NO_BORDER));
 
-                //tipo de pago
-                table3.AddCell(new Cell().Add(new Paragraph("Tipo de pago:"))
-                    .SetFontColor(new DeviceRgb(239, 118, 61))
-                    .SetFontSize(14)
-                    .SetBorder(Border.NO_BORDER));
-                table3.AddCell(new Cell().Add(new Paragraph(reservaClienteEmail.TipoPago)).AddStyle(textStyle).SetBorder(Border.NO_BORDER));
-
-                //adelanto
                 table3.AddCell(new Cell().Add(new Paragraph("Mensualidad:"))
-                    .SetFontColor(new DeviceRgb(239, 118, 61))
-                    .SetFontSize(14)
-                    .SetBorder(Border.NO_BORDER));
+                   .SetFontColor(new DeviceRgb(239, 118, 61))
+                   .SetFontSize(14)
+                   .SetBorder(Border.NO_BORDER));
                 table3.AddCell(new Cell().Add(new Paragraph(reservaClienteEmail.MontoMensualidad.ToString())).AddStyle(textStyle).SetBorder(Border.NO_BORDER));
 
-                document.Add(table3);
+                if (reservaClienteEmail.TipoPago == "Cheque")
+                {
+                    document.Add(new Paragraph("Detalles del cheque")
+                        .AddStyle(subtitleStyle));
+
+                    document.Add(new Paragraph($"Número de cheque: {numeroCheque}").AddStyle(textStyle));
+                    document.Add(new Paragraph($"Nombre del banco: {nombreBanco}").AddStyle(textStyle));
+                }
 
                 // Derechos reservados
                 document.Add(new Paragraph("@2024 | Hoteles Beach S.A.")

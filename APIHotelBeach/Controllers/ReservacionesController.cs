@@ -328,7 +328,10 @@ namespace APIHotelBeach.Controllers
 
                 EmailReservacion email = new EmailReservacion();
 
-                email.EnviarPDF(reservaClienteEmail);
+                string numeroCheque = "";
+                string nombreBanco = "";
+
+                email.EnviarPDF(reservaClienteEmail, numeroCheque, nombreBanco);
 
                 enviado = true;
 
