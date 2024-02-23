@@ -14,6 +14,7 @@ namespace APIHotelBeach.Controllers
             _context = pContext;
         }
 
+        //[Authorize]
         [HttpGet("Listado")]
         public async Task<List<Cheque>> Listado()
         {
@@ -22,6 +23,7 @@ namespace APIHotelBeach.Controllers
             return list;
         }
 
+        //[Authorize]
         [HttpGet("Consultar")]
         public async Task<Cheque> Consultar(int Id)
         {
@@ -29,6 +31,7 @@ namespace APIHotelBeach.Controllers
             return temp;
         }
 
+        //[Authorize]
         [HttpPost("Agregar")]
         public string Agregar(Cheque pCheque)
         {
@@ -47,6 +50,7 @@ namespace APIHotelBeach.Controllers
             return mensaje;
         }
 
+        //[Authorize]
         [HttpPut("Modificar")]
         public string Modificar(Cheque pCheque)
         {
@@ -64,6 +68,7 @@ namespace APIHotelBeach.Controllers
             return mensaje;
         }
 
+        //[Authorize]
         [HttpDelete("Eliminar")]
         public async Task<string> Eliminar(int Id)
         {

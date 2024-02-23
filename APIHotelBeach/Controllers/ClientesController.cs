@@ -78,6 +78,7 @@ namespace APIHotelBeach.Controllers
         }
 
         //metodo para buscar por cedula
+        //[Authorize]
         [HttpGet("Buscar")]
         public async Task<Cliente> GetClient(string cedula)
         {
@@ -106,6 +107,7 @@ namespace APIHotelBeach.Controllers
         }//end modificar
 
         //eliminar cliente
+        //[Authorize]
         [HttpDelete("EliminarCliente")]
         public async Task<string> Eliminar(string vCedula)
         {

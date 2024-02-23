@@ -34,9 +34,9 @@ namespace APIHotelBeach.Models
 
                 email.To.Add(new MailAddress(reservaClienteEmail.Email));
 
-                email.To.Add(new MailAddress("jennifer.rodriguezestrada@outlook.com"));
+                email.To.Add(new MailAddress("hotelbeachsa@outlook.com"));
 
-                email.From = new MailAddress("jennifer.rodriguezestrada@outlook.com");
+                email.From = new MailAddress("hotelbeachsa@outlook.com");
 
 
                 //html 
@@ -61,7 +61,7 @@ namespace APIHotelBeach.Models
                 SmtpClient smtp = new SmtpClient("smtp-mail.outlook.com")
                 {
                     Port = 587,
-                    Credentials = new NetworkCredential("jennifer.rodriguezestrada@outlook.com", "4rr0zP1nt0"),
+                    Credentials = new NetworkCredential("hotelbeachsa@outlook.com", "beachhotel24"),
                     EnableSsl = true
                 };
 
@@ -96,10 +96,10 @@ namespace APIHotelBeach.Models
 
                 email.To.Add(new MailAddress(reservaPDFCheque.Email));
 
-                email.To.Add(new MailAddress("jennifer.rodriguezestrada@outlook.com"));
+                email.To.Add(new MailAddress("hotelbeachsa@outlook.com"));
 
 
-                email.From = new MailAddress("jennifer.rodriguezestrada@outlook.com");
+                email.From = new MailAddress("hotelbeachsa@outlook.com");
 
                 htmlBody = htmlBody.Replace("{{Email}}", reservaPDFCheque.Email)
                                .Replace("{{NombreCompleto}}", reservaPDFCheque.NombreCompleto);
@@ -120,7 +120,7 @@ namespace APIHotelBeach.Models
                 SmtpClient smtp = new SmtpClient("smtp-mail.outlook.com")
                 {
                     Port = 587,
-                    Credentials = new NetworkCredential("jennifer.rodriguezestrada@outlook.com", "4rr0zP1nt0"),
+                    Credentials = new NetworkCredential("hotelbeachsa@outlook.com", "beachhotel24"),
                     EnableSsl = true
                 };
 

@@ -27,6 +27,7 @@ namespace APIHotelBeach.Controllers
         //***   MÉTODOS     CRUD ***
 
         //lista de todas las reservaciones
+        //[Authorize]
         [HttpGet("ListaReservas")]
         public async Task<List<Reservacion>> ListaReservas()
         {
@@ -36,6 +37,7 @@ namespace APIHotelBeach.Controllers
         }
 
         //lista de reservaciones de un cliente especifico
+        //[Authorize]
         [HttpGet("ListaReservasCliente")]
         public async Task<List<Reservacion>> ListaReservasCliente(string cedula)
         {
@@ -55,6 +57,7 @@ namespace APIHotelBeach.Controllers
         }
 
         //Agregar reservacion
+        //[Authorize]
         [HttpPost("AgregarReserva")]
         public async Task<string> AgregarReserva(Reservacion pReserva)
         {
@@ -218,6 +221,7 @@ namespace APIHotelBeach.Controllers
         }
 
         //Agregar cheque
+        //[Authorize]
         [HttpPost("AgregarCheque")]
         public async Task<string> AgregarCheque(Cheque pCheque)
         {
