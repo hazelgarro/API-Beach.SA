@@ -40,10 +40,10 @@ namespace APIHotelBeach.Models
                 email.To.Add(new MailAddress(reservaClienteEmail.Email));
 
                 // Copia al administrador
-                email.To.Add(new MailAddress("hotelbeachsa@outlook.com"));
+                email.To.Add(new MailAddress("jennifer.rodriguezestrada@outlook.com"));
 
                 // Emisor
-                email.From = new MailAddress("hotelbeachsa@outlook.com");
+                email.From = new MailAddress("jennifer.rodriguezestrada@outlook.com");
 
 
                 //html para el body del email
@@ -67,13 +67,13 @@ namespace APIHotelBeach.Models
 
                 // Adjuntar el PDF al correo electrónico
                 MemoryStream memoryStream = new MemoryStream(fileBytes);
-                email.Attachments.Add(new Attachment(memoryStream, "RegistroUsuario.pdf", "application/pdf"));
+                email.Attachments.Add(new Attachment(memoryStream, "FacturaReservacion.pdf", "application/pdf"));
 
                 // Configurar el cliente SMTP
                 SmtpClient smtp = new SmtpClient("smtp-mail.outlook.com")
                 {
                     Port = 587,
-                    Credentials = new NetworkCredential("hotelbeachsa@outlook.com", "beachhotel24"),
+                    Credentials = new NetworkCredential("jennifer.rodriguezestrada@outlook.com", "4rr0zP1nt0"),
                     EnableSsl = true
                 };
 
@@ -119,7 +119,8 @@ namespace APIHotelBeach.Models
                     .SetFontColor(ColorConstants.GRAY)
                     .SetBackgroundColor(new DeviceRgb(238, 238, 238))
                     .SetTextAlignment(TextAlignment.CENTER)
-                    .SetPadding(10);
+                    .SetPadding(10)
+                    .SetMarginTop(20);
 
                 // Estilo para el texto normal
                 Style textStyle = new Style()
@@ -134,12 +135,15 @@ namespace APIHotelBeach.Models
                     .AddStyle(titleStyle);
                 document.Add(title);
 
+                //// Agregar texto con estilos
+                document.Add(new Paragraph($"¡Hola, {reservaClienteEmail.NombreCompleto}! ¡Bienvenido a nuestro hotel, esperamos que disfrute su estadia!")
+                    .AddStyle(textStyle));
 
-                // Agregar título de detalles 
+                // Agregar título y detalles de la reservación
                 document.Add(new Paragraph("Detalles de su reservación")
                     .AddStyle(subtitleStyle));
 
-                // Crear tabla para los detalles 
+                // Crear tabla para los detalles de la reservación
                 Table table = new Table(new float[] { 1, 4 })
                     .SetMarginTop(20)
                     .SetWidth(UnitValue.CreatePercentValue(100));
@@ -148,7 +152,7 @@ namespace APIHotelBeach.Models
                 table.SetBorder(Border.NO_BORDER);
                 table.SetProperty(Property.BORDER_COLLAPSE, BorderCollapsePropertyValue.COLLAPSE);
 
-                // Tabla para detalles
+                // Tabla para detalles de la reservación
 
                 //Nombre
                 table.AddCell(new Cell().Add(new Paragraph("Nombre cliente:"))
@@ -164,7 +168,6 @@ namespace APIHotelBeach.Models
                     .SetBorder(Border.NO_BORDER));
                 table.AddCell(new Cell().Add(new Paragraph(reservaClienteEmail.CedulaCliente)).AddStyle(textStyle).SetBorder(Border.NO_BORDER));
 
-
                 //Fecha de reservacion
                 table.AddCell(new Cell().Add(new Paragraph("Fecha de reservación:"))
                     .SetFontColor(new DeviceRgb(239, 118, 61))
@@ -173,19 +176,19 @@ namespace APIHotelBeach.Models
                 table.AddCell(new Cell().Add(new Paragraph(reservaClienteEmail.FechaReserva.ToString("dd/MM/yyyy"))).AddStyle(textStyle).SetBorder(Border.NO_BORDER));
 
                 //Nombre Completo
-                table.AddCell(new Cell().Add(new Paragraph("Duracion:"))
+                table.AddCell(new Cell().Add(new Paragraph("Duración:"))
                     .SetFontColor(new DeviceRgb(239, 118, 61))
                     .SetFontSize(14)
                     .SetBorder(Border.NO_BORDER));
                 table.AddCell(new Cell().Add(new Paragraph(reservaClienteEmail.Duracion.ToString())).AddStyle(textStyle).SetBorder(Border.NO_BORDER));
 
+                document.Add(table);
 
-                //Tabla para factura
-                // Agregar título de detalles 
+                // Agregar título y detalles de la factura
                 document.Add(new Paragraph("Detalles factura")
                     .AddStyle(subtitleStyle));
 
-                // Crear tabla 
+                // Crear tabla para los detalles de la factura
                 Table table2 = new Table(new float[] { 1, 4 })
                     .SetMarginTop(20)
                     .SetWidth(UnitValue.CreatePercentValue(100));
@@ -193,6 +196,8 @@ namespace APIHotelBeach.Models
                 // Establecer los bordes de la tabla y las celdas como invisibles
                 table2.SetBorder(Border.NO_BORDER);
                 table2.SetProperty(Property.BORDER_COLLAPSE, BorderCollapsePropertyValue.COLLAPSE);
+
+                // Tabla para detalles de la factura
 
                 //Subtotal
                 table2.AddCell(new Cell().Add(new Paragraph("Subtotal:"))
@@ -229,38 +234,38 @@ namespace APIHotelBeach.Models
                     .SetBorder(Border.NO_BORDER));
                 table2.AddCell(new Cell().Add(new Paragraph(reservaClienteEmail.Adelanto.ToString())).AddStyle(textStyle).SetBorder(Border.NO_BORDER));
 
+                document.Add(table2);
 
-                //Tabla para pago
-                // Agregar título de detalles 
+                // Agregar título y detalles del pago
                 document.Add(new Paragraph("Detalles pago")
                     .AddStyle(subtitleStyle));
 
-                // Crear tabla para los detalles 
+                // Crear tabla para los detalles del pago
                 Table table3 = new Table(new float[] { 1, 4 })
                     .SetMarginTop(20)
                     .SetWidth(UnitValue.CreatePercentValue(100));
 
+                // Establecer los bordes de la tabla y las celdas como invisibles
+                table3.SetBorder(Border.NO_BORDER);
+                table3.SetProperty(Property.BORDER_COLLAPSE, BorderCollapsePropertyValue.COLLAPSE);
+
+                // Tabla para detalles del pago
+
                 //tipo de pago
                 table3.AddCell(new Cell().Add(new Paragraph("Tipo de pago:"))
-                   .SetFontColor(new DeviceRgb(239, 118, 61))
-                   .SetFontSize(14)
-                   .SetBorder(Border.NO_BORDER));
+                    .SetFontColor(new DeviceRgb(239, 118, 61))
+                    .SetFontSize(14)
+                    .SetBorder(Border.NO_BORDER));
                 table3.AddCell(new Cell().Add(new Paragraph(reservaClienteEmail.TipoPago)).AddStyle(textStyle).SetBorder(Border.NO_BORDER));
 
                 //adelanto
                 table3.AddCell(new Cell().Add(new Paragraph("Mensualidad:"))
-                   .SetFontColor(new DeviceRgb(239, 118, 61))
-                   .SetFontSize(14)
-                   .SetBorder(Border.NO_BORDER));
+                    .SetFontColor(new DeviceRgb(239, 118, 61))
+                    .SetFontSize(14)
+                    .SetBorder(Border.NO_BORDER));
                 table3.AddCell(new Cell().Add(new Paragraph(reservaClienteEmail.MontoMensualidad.ToString())).AddStyle(textStyle).SetBorder(Border.NO_BORDER));
 
-                document.Add(table);
-                document.Add(table2);
                 document.Add(table3);
-
-                //// Agregar texto con estilos
-                document.Add(new Paragraph($"¡Hola, {reservaClienteEmail.NombreCompleto}! ¡Bienvenido a nuestro hotel, esperamos que disfrute su estadia!")
-                    .AddStyle(textStyle));
 
                 // Derechos reservados
                 document.Add(new Paragraph("@2024 | Hoteles Beach S.A.")
@@ -276,6 +281,7 @@ namespace APIHotelBeach.Models
 
             return pdfBytes;
         }
+
 
     }
 }
