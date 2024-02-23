@@ -14,7 +14,8 @@ builder.Services.AddControllers();
 builder.Services.AddDbContext<APIHotelBeach.Context.DbContextHotel>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("StringConexion")));
 
 //configuracion del servicio JWT
-builder.Services.AddScoped<IAutorizacionServices, AutorizacionServices>();
+builder.Services.AddScoped<IAutorizacionServicesCliente, AutorizacionServicesCliente>();
+builder.Services.AddScoped<IAutorizacionServicesEmpleado, AutorizacionServicesEmpleado>();
 
 var key = builder.Configuration.GetValue<string>("JwtSettings:Key");
 var keyBytes = Encoding.ASCII.GetBytes(key);

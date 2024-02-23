@@ -1,5 +1,6 @@
 ﻿using APIHotelBeach.Context;
 using APIHotelBeach.Models;
+using APIHotelBeach.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,10 +12,13 @@ namespace APIHotelBeach.Controllers
     public class EmpleadosController : Controller
     {
         private readonly DbContextHotel _context;
+        private readonly IAutorizacionServicesEmpleado autorizacionService;
 
-        public EmpleadosController(DbContextHotel pContext)
+        public EmpleadosController(DbContextHotel pContext, IAutorizacionServicesEmpleado autorizacionService)
         {
             _context = pContext;
+            this.autorizacionService = autorizacionService;
+
         }//end EmpleadoController
 
 
@@ -42,7 +46,7 @@ namespace APIHotelBeach.Controllers
         }//end Consultar
 
 
-        [Authorize]
+        //[Authorize]
         [HttpPost("Agregar")]
         public string Agregar(Empleado empleado)
         {
@@ -105,6 +109,35 @@ namespace APIHotelBeach.Controllers
             }
             return msj;
         }//end Eliminar
+
+
+        //***   MÉTODOS  AUTENTICACION    ****
+
+        //validar email y password
+        [HttpPost]
+        [Route("AutenticarPW")]
+        public async Task<IActionResult> AutenticarPW(string email, string password)
+        {
+            var temp = await _context.Empleados.FirstOrDefaultAsync(u => (u.Email.Equals(email)) && (u.Password.Equals(password)));
+
+            if (temp == null)
+            {
+                return Unauthorized();
+            }
+            else
+            {
+                var autorizado = await autorizacionService.DevolverTokenEmpleado(temp);
+
+                if (autorizado == null)
+                {
+                    return Unauthorized();
+                }
+                else
+                {
+                    return Ok(autorizado);
+                }
+            }
+        }
 
     }//end class
 }//end namespace

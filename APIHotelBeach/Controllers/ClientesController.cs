@@ -14,9 +14,9 @@ namespace APIHotelBeach.Controllers
     {
 
         private readonly DbContextHotel _context;
-        private readonly IAutorizacionServices autorizacionService;
+        private readonly IAutorizacionServicesCliente autorizacionService;
 
-        public ClientesController(DbContextHotel pContext, IAutorizacionServices autorizacionService)
+        public ClientesController(DbContextHotel pContext, IAutorizacionServicesCliente autorizacionService)
         {
             _context = pContext;
             this.autorizacionService = autorizacionService;

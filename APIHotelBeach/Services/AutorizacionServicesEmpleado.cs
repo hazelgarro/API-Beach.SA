@@ -13,22 +13,22 @@ using Microsoft.EntityFrameworkCore;
 
 namespace APIHotelBeach.Services
 {
-    public class AutorizacionServices : IAutorizacionServices
+    public class AutorizacionServicesEmpleado : IAutorizacionServicesEmpleado
     {
 
         private readonly IConfiguration _configuration;
         private readonly DbContextHotel _context;
 
-        public AutorizacionServices(IConfiguration configuration, DbContextHotel context)
+        public AutorizacionServicesEmpleado(IConfiguration configuration, DbContextHotel context)
         {
             _configuration = configuration;
             _context = context;
         }
 
-        public async Task<AutorizacionResponse> DevolverToken(Cliente autorizacion)
+        public async Task<AutorizacionResponse> DevolverTokenEmpleado(Empleado autorizacion)
         {
 
-            var temp = await _context.Clientes.FirstOrDefaultAsync(u => u.Email.Equals(autorizacion.Email) && u.Password.Equals(autorizacion.Password));
+            var temp = await _context.Empleados.FirstOrDefaultAsync(u => u.Email.Equals(autorizacion.Email) && u.Password.Equals(autorizacion.Password));
 
             if (temp == null)
             {

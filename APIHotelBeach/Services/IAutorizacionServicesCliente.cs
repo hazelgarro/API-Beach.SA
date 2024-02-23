@@ -3,7 +3,7 @@ using APIHotelBeach.Models.Custom;
 
 namespace APIHotelBeach.Services
 {
-    public interface IAutorizacionServices
+    public interface IAutorizacionServicesCliente
     {
             Task<AutorizacionResponse> DevolverToken(Cliente autorizacion);
     }
