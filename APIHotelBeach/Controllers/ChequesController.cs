@@ -29,7 +29,7 @@ namespace APIHotelBeach.Controllers
         [HttpGet("Consultar")]
         public async Task<Cheque> Consultar(int Id)
         {
-            var temp = await _context.Cheques.FirstOrDefaultAsync(c => c.NumeroCheque == Id);
+            var temp = await _context.Cheques.FirstOrDefaultAsync(c => c.IdReservacion == Id);
             return temp;
         }
 
