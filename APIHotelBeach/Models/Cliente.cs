@@ -39,5 +39,16 @@ namespace APIHotelBeach.Models
         [Required]
         public char Estado { get; set; }
 
+
+        public class LoginDto
+        {
+            [Required(ErrorMessage = "No se permite el email en blanco")]
+            [DataType(DataType.EmailAddress)]
+            public string Email { get; set; }
+
+            [Required(ErrorMessage = "Debe ingresar su contraseña")]
+            [DataType(DataType.Password)]
+            public string Password { get; set; }
+        }
     }
 }

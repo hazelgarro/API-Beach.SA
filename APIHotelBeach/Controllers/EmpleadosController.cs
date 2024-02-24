@@ -45,6 +45,15 @@ namespace APIHotelBeach.Controllers
             return temp;
         }//end Consultar
 
+        //[Authorize]
+        [HttpGet("BuscarCorreo")]
+        public async Task<Empleado> GetClientCorreo(string email)
+        {
+            var temp = await _context.Empleados.FirstOrDefaultAsync(c => c.Email == email);
+            return temp;
+
+        }
+
 
         [HttpPost("Agregar")]
         public string Agregar(Empleado empleado)

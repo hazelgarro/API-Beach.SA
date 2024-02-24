@@ -4,6 +4,9 @@ using APIHotelBeach.Models;
 using APIHotelBeach.Context;
 using iText.Commons.Actions.Contexts;
 using APIHotelBeach.Services;
+using Microsoft.AspNetCore.Authentication;
+using System.Security.Claims;
+using static APIHotelBeach.Models.Cliente;
 
 namespace APIHotelBeach.Controllers
 {
@@ -41,7 +44,6 @@ namespace APIHotelBeach.Controllers
         }
 
         //Registrar cliente
-        //[Äuthorize]
         [HttpPost("CrearCuenta")]
         public string CrearCuenta(Cliente cliente)
         {
@@ -83,6 +85,15 @@ namespace APIHotelBeach.Controllers
         public async Task<Cliente> GetClient(string cedula)
         {
             var temp = await _context.Clientes.FirstOrDefaultAsync(c => c.Cedula == cedula);
+            return temp;
+
+        }
+
+
+        [HttpGet("BuscarCorreo")]
+        public async Task<Cliente> GetClientCorreo(string email)
+        {
+            var temp = await _context.Clientes.FirstOrDefaultAsync(c => c.Email == email);
             return temp;
 
         }
@@ -197,8 +208,77 @@ namespace APIHotelBeach.Controllers
 
         //***   MÉTODOS  AUTENTICACION    ****
 
-        //validar email y password
-        [HttpPost]
+        [HttpPost("Login")]
+        public async Task<string> Login([Bind] LoginDto loginDto)
+        {
+            string mensaje = "";
+
+            var temp = ValidarUsuario(loginDto);
+
+            if (temp != null)
+            {
+                bool restablecer = VerificarRestablecer(temp);
+
+                if (restablecer)
+                {
+                    mensaje = "Debe restablecer contraseña";
+                }
+                else
+                {
+                    var userClaims = new List<Claim>() { new Claim(ClaimTypes.Name, temp.Email) };
+
+                    var grandIdentity = new ClaimsIdentity(userClaims, "User Identity");
+
+                    var userPrincipal = new ClaimsPrincipal(new[] { grandIdentity });
+
+                    HttpContext.SignInAsync(userPrincipal);
+
+                    mensaje = "Ha iniciado sesión";
+                }
+            }
+            else
+            {
+                mensaje = "Error. Usuario o contraseña incorrectos";
+            }
+
+            return mensaje;
+        }
+
+
+
+        private Cliente ValidarUsuario(LoginDto loginDto)
+        {
+            Cliente autorizado = null;
+
+            var user = _context.Clientes.FirstOrDefault(u => u.Email == loginDto.Email);
+
+            if (user != null && user.Password.Equals(loginDto.Password))
+            {
+                autorizado = user;
+            }
+
+            return autorizado;
+        }
+
+        private bool VerificarRestablecer(Cliente temp)
+        {
+            bool verificado = false;
+
+            var user = _context.Clientes.FirstOrDefault(u => u.Email == temp.Email);
+
+            if (user != null)
+            {
+                if (user.Restablecer == 0)
+                {
+                    verificado = true;
+                }
+            }
+            return verificado;
+        }
+    
+
+    //validar email y password
+    [HttpPost]
         [Route("AutenticarPW")]
         public async Task<IActionResult> AutenticarPW(string email, string password)
         {
