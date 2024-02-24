@@ -220,6 +220,15 @@ namespace APIHotelBeach.Controllers
             return mensaje;
         }
 
+        //BuscarReserva
+        //[Authorize]
+        [HttpGet("BuscarReserva")]
+        public async Task<Reservacion> BuscarReserva(int id)
+        {
+            var temp = await _context.Reservaciones.FirstOrDefaultAsync(r => r.Id == id);
+            return temp;
+        }
+
         //Agregar cheque
         //[Authorize]
         [HttpPost("AgregarCheque")]

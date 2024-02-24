@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Jennifer Rodriguez\\Desktop\\ITM\\Programación avanzada con Asp.net\\Trabajos\\Proyecto final\\API-Beach.SA\\APIHotelBeach\\APIHotelBeach.csproj": {}
+    "F:\\Universidad de Costa Rica\\Verano 3\\Proyecto\\API-Beach.SA\\APIHotelBeach\\APIHotelBeach.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Jennifer Rodriguez\\Desktop\\ITM\\Programación avanzada con Asp.net\\Trabajos\\Proyecto final\\API-Beach.SA\\APIHotelBeach\\APIHotelBeach.csproj": {
+    "F:\\Universidad de Costa Rica\\Verano 3\\Proyecto\\API-Beach.SA\\APIHotelBeach\\APIHotelBeach.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Jennifer Rodriguez\\Desktop\\ITM\\Programación avanzada con Asp.net\\Trabajos\\Proyecto final\\API-Beach.SA\\APIHotelBeach\\APIHotelBeach.csproj",
+        "projectUniqueName": "F:\\Universidad de Costa Rica\\Verano 3\\Proyecto\\API-Beach.SA\\APIHotelBeach\\APIHotelBeach.csproj",
         "projectName": "APIHotelBeach",
-        "projectPath": "C:\\Users\\Jennifer Rodriguez\\Desktop\\ITM\\Programación avanzada con Asp.net\\Trabajos\\Proyecto final\\API-Beach.SA\\APIHotelBeach\\APIHotelBeach.csproj",
-        "packagesPath": "C:\\Users\\Jennifer Rodriguez\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Jennifer Rodriguez\\Desktop\\ITM\\Programación avanzada con Asp.net\\Trabajos\\Proyecto final\\API-Beach.SA\\APIHotelBeach\\obj\\",
+        "projectPath": "F:\\Universidad de Costa Rica\\Verano 3\\Proyecto\\API-Beach.SA\\APIHotelBeach\\APIHotelBeach.csproj",
+        "packagesPath": "C:\\Users\\Mónica Artavia\\.nuget\\packages\\",
+        "outputPath": "F:\\Universidad de Costa Rica\\Verano 3\\Proyecto\\API-Beach.SA\\APIHotelBeach\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Jennifer Rodriguez\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Mónica Artavia\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -84,7 +84,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
