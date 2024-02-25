@@ -34,35 +34,6 @@ namespace APIHotelBeach.Controllers
         }
 
         //[Authorize]
-        [HttpPost("Agregar")]
-        public async Task<string> Agregar(Cheque pCheque)
-        {
-            string mensaje = "";
-
-            try
-            {
-                var cheque = await _context.Cheques.FirstOrDefaultAsync(c => c.NumeroCheque == pCheque.NumeroCheque);
-
-                if (cheque != null)
-                {
-                    mensaje = "El cheque con ese numero ya se encuentra registrado.";
-                }
-                else
-                {
-                    _context.Cheques.Add(pCheque);
-                    await _context.SaveChangesAsync();
-                    mensaje = "Cheque registrado correctamente";
-                }
-            }
-            catch (Exception ex)
-            {
-                mensaje = "Error: " + ex.Message + " " + ex.InnerException.ToString;
-            }
-
-            return mensaje;
-        }
-
-        //[Authorize]
         [HttpPut("Modificar")]
         public async Task<string> Modificar(Cheque pCheque)
         {
@@ -108,10 +79,10 @@ namespace APIHotelBeach.Controllers
             string mensaje = "";
             try
             {
-                var temp = await _context.Cheques.FirstOrDefaultAsync(c => c.NumeroCheque == Id);
+                var temp = await _context.Cheques.FirstOrDefaultAsync(c => c.IdReservacion == Id);
                 if (temp == null)
                 {
-                    mensaje = "No existe ningun cheque con el numero " + Id;
+                    mensaje = "No existe ningun cheque con el numero de reservacion " + Id;
                 }
                 else
                 {

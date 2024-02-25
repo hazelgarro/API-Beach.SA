@@ -4,6 +4,8 @@ using iText.Commons.Actions.Contexts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Diagnostics.Metrics;
 
 namespace APIHotelBeach.Controllers
@@ -232,77 +234,75 @@ namespace APIHotelBeach.Controllers
         //Agregar cheque
         //[Authorize]
         [HttpPost("AgregarCheque")]
-        public async Task<string> AgregarCheque(Cheque pCheque)
+        public async Task<string> AgregarCheque(ChequeEnvioEmail chequeEnvioEmail)
         {
             string mensaje = "";
             ReservaPDFCheque reservaPDFCheque = new ReservaPDFCheque();
             bool clienteEncontrado = false;
-            string emailGuardar = " ";
-            string nombreCliente = " ";
+
+            Cheque pCheque = new Cheque();
+            pCheque.IdCheque = chequeEnvioEmail.IdCheque;
+            pCheque.NumeroCheque = chequeEnvioEmail.IdCheque;
+            pCheque.NombreBanco = chequeEnvioEmail.NombreBanco;
+            pCheque.IdReservacion = chequeEnvioEmail.IdReservacion;
+
+            bool enviarCorreo = chequeEnvioEmail.EnvioEmail;
 
             try
             {
-                var reservas = await _context.Reservaciones.ToListAsync();
-                foreach (var item in reservas)
+                var reserva = await _context.Reservaciones.FirstOrDefaultAsync(r => r.Id == pCheque.IdReservacion);
+
+                if (reserva != null)
                 {
-                    if (pCheque.IdReservacion == item.Id)
+                    if (reserva.TipoPago.Equals("Cheque"))
                     {
-                        if (item.TipoPago.Equals("Cheque"))
-                        {
-                            var clientes = await _context.Clientes.ToListAsync();
+                        var cliente = await _context.Clientes.FirstOrDefaultAsync(c => c.Cedula == reserva.CedulaCliente);
 
-                            foreach (var value in clientes)
-                            {
-                                if (!clienteEncontrado)
-                                {
-                                    if (item.CedulaCliente.Equals(value.Cedula))
-                                    {
-                                        clienteEncontrado = true;
-                                        emailGuardar = value.Email;
-                                        nombreCliente = value.NombreCompleto;
-                                    }
-                                }
-                            }
+                        clienteEncontrado = true;
 
-                            reservaPDFCheque = new ReservaPDFCheque();
+                        reservaPDFCheque = new ReservaPDFCheque();
 
-                            reservaPDFCheque.CedulaCliente = item.CedulaCliente;
-                            reservaPDFCheque.Email = emailGuardar;
-                            reservaPDFCheque.NombreCompleto = nombreCliente;
-                            reservaPDFCheque.IdPaquete = item.IdPaquete;
-                            reservaPDFCheque.TipoPago = item.TipoPago;
-                            reservaPDFCheque.FechaReserva = item.FechaReserva;
-                            reservaPDFCheque.Duracion = item.Duracion;
-                            reservaPDFCheque.Subtotal = item.Subtotal;
-                            reservaPDFCheque.Impuesto = item.Impuesto;
-                            reservaPDFCheque.Descuento = item.Descuento;
-                            reservaPDFCheque.MontoTotal = item.MontoTotal;
-                            reservaPDFCheque.Adelanto = item.Adelanto;
-                            reservaPDFCheque.MontoMensualidad = item.MontoMensualidad;
-                            reservaPDFCheque.NumeroCheque = pCheque.NumeroCheque;
-                            reservaPDFCheque.NombreBanco = pCheque.NombreBanco;
+                        reservaPDFCheque.CedulaCliente = reserva.CedulaCliente;
+                        reservaPDFCheque.Email = cliente.Email;
+                        reservaPDFCheque.NombreCompleto = cliente.NombreCompleto;
+                        reservaPDFCheque.IdPaquete = reserva.IdPaquete;
+                        reservaPDFCheque.TipoPago = reserva.TipoPago;
+                        reservaPDFCheque.FechaReserva = reserva.FechaReserva;
+                        reservaPDFCheque.Duracion = reserva.Duracion;
+                        reservaPDFCheque.Subtotal = reserva.Subtotal;
+                        reservaPDFCheque.Impuesto = reserva.Impuesto;
+                        reservaPDFCheque.Descuento = reserva.Descuento;
+                        reservaPDFCheque.MontoTotal = reserva.MontoTotal;
+                        reservaPDFCheque.Adelanto = reserva.Adelanto;
+                        reservaPDFCheque.MontoMensualidad = reserva.MontoMensualidad;
+                        reservaPDFCheque.NumeroCheque = pCheque.NumeroCheque;
+                        reservaPDFCheque.NombreBanco = pCheque.NombreBanco;
 
-                        }
-                        else
-                        {
-                            mensaje = "Los datos no coinciden";
-                        }
+                        
+                    }
+                    else
+                    {
+                        mensaje = "Los datos no coinciden";
                     }
                 }
 
-                _context.Cheques.Add(pCheque);
-                _context.SaveChanges();
+                if (clienteEncontrado)
+                {
+                    _context.Cheques.Add(pCheque);
+                    _context.SaveChanges();
 
-                if (EnviarEmailC(reservaPDFCheque))
-                {
-                    mensaje = "Cheque y reservacion agregada correctamente.";
+                    if (enviarCorreo)
+                    {
+                        if (EnviarEmailC(reservaPDFCheque))
+                        {
+                            mensaje = "Cheque y reservacion agregada correctamente.";
+                        }
+                        else
+                        {
+                            mensaje = "Cheque y reservacion agregada correctamente, pero el email no pudo ser enviado.";
+                        }
+                    }
                 }
-                else
-                {
-                    mensaje = "Cheque y reservacion agregada correctamente, pero el email no pudo ser enviado.";
-                }
-               
-                
             }
             catch (Exception ex)
             {
