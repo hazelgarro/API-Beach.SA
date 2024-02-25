@@ -10,6 +10,8 @@ using iText.Kernel.Colors;
 using iText.Kernel.Font;
 using iText.Layout.Properties;
 using iText.Layout.Borders;
+using APIHotelBeach.ViewModels;
+
 
 namespace APIHotelBeach.Models
 {
@@ -34,9 +36,9 @@ namespace APIHotelBeach.Models
 
                 email.To.Add(new MailAddress(reservaClienteEmail.Email));
 
-                email.To.Add(new MailAddress("hotelbeachsa@outlook.com"));
+                email.To.Add(new MailAddress("sahotelbeach@outlook.com"));
 
-                email.From = new MailAddress("hotelbeachsa@outlook.com");
+                email.From = new MailAddress("sahotelbeach@outlook.com");
 
 
                 //html 
@@ -61,7 +63,7 @@ namespace APIHotelBeach.Models
                 SmtpClient smtp = new SmtpClient("smtp-mail.outlook.com")
                 {
                     Port = 587,
-                    Credentials = new NetworkCredential("hotelbeachsa@outlook.com", "beachhotel24"),
+                    Credentials = new NetworkCredential("sahotelbeach@outlook.com", "beachhotel24"),
                     EnableSsl = true
                 };
 
@@ -120,7 +122,7 @@ namespace APIHotelBeach.Models
                 SmtpClient smtp = new SmtpClient("smtp-mail.outlook.com")
                 {
                     Port = 587,
-                    Credentials = new NetworkCredential("hotelbeachsa@outlook.com", "beachhotel24"),
+                    Credentials = new NetworkCredential("sahotelbeach@outlook.com", "beachhotel24"),
                     EnableSsl = true
                 };
 
@@ -185,9 +187,21 @@ namespace APIHotelBeach.Models
                 table.AddCell(new Cell().Add(new Paragraph(reservaClienteEmail.FechaReserva.ToString("dd/MM/yyyy"))).AddStyle(textStyle).SetBorder(Border.NO_BORDER));
 
                 table.AddCell(new Cell().Add(new Paragraph("Duración:")).SetFontColor(new DeviceRgb(239, 118, 61)).SetFontSize(14).SetBorder(Border.NO_BORDER));
-                table.AddCell(new Cell().Add(new Paragraph(reservaClienteEmail.Duracion.ToString())).AddStyle(textStyle).SetBorder(Border.NO_BORDER));
+                table.AddCell(new Cell().Add(new Paragraph(reservaClienteEmail.Duracion.ToString() + " días")).AddStyle(textStyle).SetBorder(Border.NO_BORDER));
 
                 document.Add(table);
+
+                //Detalles pago
+                document.Add(new Paragraph("Detalles pago").AddStyle(subtitleStyle));
+
+                Table table3 = new Table(new float[] { 1, 1 }).SetMarginTop(20).SetWidth(UnitValue.CreatePercentValue(100));
+                table3.SetBorder(Border.NO_BORDER);
+                table3.SetProperty(Property.BORDER_COLLAPSE, BorderCollapsePropertyValue.COLLAPSE);
+
+                table3.AddCell(new Cell().Add(new Paragraph("Tipo pago:")).SetFontColor(new DeviceRgb(239, 118, 61)).SetFontSize(14).SetBorder(Border.NO_BORDER));
+                table3.AddCell(new Cell().Add(new Paragraph(reservaClienteEmail.TipoPago.ToString())).AddStyle(textStyle).SetBorder(Border.NO_BORDER));
+
+                document.Add(table3);
 
                 //Detalles factura
                 document.Add(new Paragraph("Detalles factura").AddStyle(subtitleStyle));
@@ -197,36 +211,27 @@ namespace APIHotelBeach.Models
                 table2.SetProperty(Property.BORDER_COLLAPSE, BorderCollapsePropertyValue.COLLAPSE);
 
                 table2.AddCell(new Cell().Add(new Paragraph("Subtotal:")).SetFontColor(new DeviceRgb(239, 118, 61)).SetFontSize(14).SetBorder(Border.NO_BORDER));
-                table2.AddCell(new Cell().Add(new Paragraph(reservaClienteEmail.Subtotal.ToString())).AddStyle(textStyle).SetBorder(Border.NO_BORDER));
+                table2.AddCell(new Cell().Add(new Paragraph("$" + reservaClienteEmail.Subtotal.ToString())).AddStyle(textStyle).SetBorder(Border.NO_BORDER));
 
-                table2.AddCell(new Cell().Add(new Paragraph("Impuesto IVA:")).SetFontColor(new DeviceRgb(239, 118, 61)).SetFontSize(14).SetBorder(Border.NO_BORDER));
-                table2.AddCell(new Cell().Add(new Paragraph(reservaClienteEmail.Impuesto.ToString())).AddStyle(textStyle).SetBorder(Border.NO_BORDER));
+                table2.AddCell(new Cell().Add(new Paragraph("Impuesto IVA :")).SetFontColor(new DeviceRgb(239, 118, 61)).SetFontSize(14).SetBorder(Border.NO_BORDER));
+                table2.AddCell(new Cell().Add(new Paragraph("$" + reservaClienteEmail.Impuesto.ToString())).AddStyle(textStyle).SetBorder(Border.NO_BORDER));
 
                 table2.AddCell(new Cell().Add(new Paragraph("Descuento:")).SetFontColor(new DeviceRgb(239, 118, 61)).SetFontSize(14).SetBorder(Border.NO_BORDER));
-                table2.AddCell(new Cell().Add(new Paragraph(reservaClienteEmail.Descuento.ToString())).AddStyle(textStyle).SetBorder(Border.NO_BORDER));
+                table2.AddCell(new Cell().Add(new Paragraph("$" + reservaClienteEmail.Descuento.ToString())).AddStyle(textStyle).SetBorder(Border.NO_BORDER));
 
                 table2.AddCell(new Cell().Add(new Paragraph("Monto total:")).SetFontColor(new DeviceRgb(239, 118, 61)).SetFontSize(14).SetBorder(Border.NO_BORDER));
-                table2.AddCell(new Cell().Add(new Paragraph(reservaClienteEmail.MontoTotal.ToString())).AddStyle(textStyle).SetBorder(Border.NO_BORDER));
+                table2.AddCell(new Cell().Add(new Paragraph("$" + reservaClienteEmail.MontoTotal.ToString())).AddStyle(textStyle).SetBorder(Border.NO_BORDER));
+
+                table2.AddCell(new Cell().Add(new Paragraph("Tipo cambio monto total:")).SetFontColor(new DeviceRgb(239, 118, 61)).SetFontSize(14).SetBorder(Border.NO_BORDER));
+                table2.AddCell(new Cell().Add(new Paragraph("\u20A1 " + reservaClienteEmail.TipoCambio.ToString())).AddStyle(textStyle).SetBorder(Border.NO_BORDER));
 
                 table2.AddCell(new Cell().Add(new Paragraph("Adelanto:")).SetFontColor(new DeviceRgb(239, 118, 61)).SetFontSize(14).SetBorder(Border.NO_BORDER));
-                table2.AddCell(new Cell().Add(new Paragraph(reservaClienteEmail.Adelanto.ToString())).AddStyle(textStyle).SetBorder(Border.NO_BORDER));
-
-                document.Add(table2);
-
-                //Detalles pago
-                document.Add(new Paragraph("Detalles pago").AddStyle(subtitleStyle));
-
-                Table table3 = new Table(new float[] { 1, 4 }).SetMarginTop(20).SetWidth(UnitValue.CreatePercentValue(100));
-                table3.SetBorder(Border.NO_BORDER);
-                table3.SetProperty(Property.BORDER_COLLAPSE, BorderCollapsePropertyValue.COLLAPSE);
-
-                table3.AddCell(new Cell().Add(new Paragraph("Tipo pago:")).SetFontColor(new DeviceRgb(239, 118, 61)).SetFontSize(14).SetBorder(Border.NO_BORDER));
-                table3.AddCell(new Cell().Add(new Paragraph(reservaClienteEmail.TipoPago.ToString())).AddStyle(textStyle).SetBorder(Border.NO_BORDER));
+                table2.AddCell(new Cell().Add(new Paragraph("$" + reservaClienteEmail.Adelanto.ToString("C"))).AddStyle(textStyle).SetBorder(Border.NO_BORDER));
 
                 table3.AddCell(new Cell().Add(new Paragraph("Mensualidad:")).SetFontColor(new DeviceRgb(239, 118, 61)).SetFontSize(14).SetBorder(Border.NO_BORDER));
-                table3.AddCell(new Cell().Add(new Paragraph(reservaClienteEmail.MontoMensualidad.ToString())).AddStyle(textStyle).SetBorder(Border.NO_BORDER));
+                table3.AddCell(new Cell().Add(new Paragraph("$" + reservaClienteEmail.MontoMensualidad.ToString())).AddStyle(textStyle).SetBorder(Border.NO_BORDER));
 
-                document.Add(table3);
+                document.Add(table2);
 
                 //Derechos reservados
                 document.Add(new Paragraph("@2024 | Hoteles Beach S.A.").SetFontColor(new DeviceRgb(136, 136, 136))
@@ -266,9 +271,6 @@ namespace APIHotelBeach.Models
                 Paragraph title = new Paragraph("Hoteles Beach S.A | Factura").AddStyle(titleStyle);
                 document.Add(title);
 
-                //Saludo
-                //document.Add(new Paragraph($"¡Hola, {reservaPDFCheque.NombreCompleto}! ¡Bienvenido a nuestro hotel, esperamos que disfrute su estadia!").AddStyle(textStyle));
-
                 //Detalles de la reservación
                 document.Add(new Paragraph("Detalles de su reservación").AddStyle(subtitleStyle));
 
@@ -286,33 +288,9 @@ namespace APIHotelBeach.Models
                 table.AddCell(new Cell().Add(new Paragraph(reservaPDFCheque.FechaReserva.ToString("dd/MM/yyyy"))).AddStyle(textStyle).SetBorder(Border.NO_BORDER));
 
                 table.AddCell(new Cell().Add(new Paragraph("Duración:")).SetFontColor(new DeviceRgb(239, 118, 61)).SetFontSize(14).SetBorder(Border.NO_BORDER));
-                table.AddCell(new Cell().Add(new Paragraph(reservaPDFCheque.Duracion.ToString())).AddStyle(textStyle).SetBorder(Border.NO_BORDER));
+                table.AddCell(new Cell().Add(new Paragraph(reservaPDFCheque.Duracion.ToString() + " días")).AddStyle(textStyle).SetBorder(Border.NO_BORDER));
 
                 document.Add(table);
-
-                //Detalles factura
-                document.Add(new Paragraph("Detalles factura").AddStyle(subtitleStyle));
-
-                Table table2 = new Table(new float[] { 1, 4 }).SetMarginTop(20).SetWidth(UnitValue.CreatePercentValue(100));
-                table2.SetBorder(Border.NO_BORDER);
-                table2.SetProperty(Property.BORDER_COLLAPSE, BorderCollapsePropertyValue.COLLAPSE);
-
-                table2.AddCell(new Cell().Add(new Paragraph("Subtotal:")).SetFontColor(new DeviceRgb(239, 118, 61)).SetFontSize(14).SetBorder(Border.NO_BORDER));
-                table2.AddCell(new Cell().Add(new Paragraph(reservaPDFCheque.Subtotal.ToString())).AddStyle(textStyle).SetBorder(Border.NO_BORDER));
-
-                table2.AddCell(new Cell().Add(new Paragraph("Impuesto IVA:")).SetFontColor(new DeviceRgb(239, 118, 61)).SetFontSize(14).SetBorder(Border.NO_BORDER));
-                table2.AddCell(new Cell().Add(new Paragraph(reservaPDFCheque.Impuesto.ToString())).AddStyle(textStyle).SetBorder(Border.NO_BORDER));
-
-                table2.AddCell(new Cell().Add(new Paragraph("Descuento:")).SetFontColor(new DeviceRgb(239, 118, 61)).SetFontSize(14).SetBorder(Border.NO_BORDER));
-                table2.AddCell(new Cell().Add(new Paragraph(reservaPDFCheque.Descuento.ToString())).AddStyle(textStyle).SetBorder(Border.NO_BORDER));
-
-                table2.AddCell(new Cell().Add(new Paragraph("Monto total:")).SetFontColor(new DeviceRgb(239, 118, 61)).SetFontSize(14).SetBorder(Border.NO_BORDER));
-                table2.AddCell(new Cell().Add(new Paragraph(reservaPDFCheque.MontoTotal.ToString())).AddStyle(textStyle).SetBorder(Border.NO_BORDER));
-
-                table2.AddCell(new Cell().Add(new Paragraph("Adelanto:")).SetFontColor(new DeviceRgb(239, 118, 61)).SetFontSize(14).SetBorder(Border.NO_BORDER));
-                table2.AddCell(new Cell().Add(new Paragraph(reservaPDFCheque.Adelanto.ToString())).AddStyle(textStyle).SetBorder(Border.NO_BORDER));
-
-                document.Add(table2);
 
                 //Detalles pago
                 document.Add(new Paragraph("Detalles pago").AddStyle(subtitleStyle));
@@ -324,10 +302,37 @@ namespace APIHotelBeach.Models
                 table3.AddCell(new Cell().Add(new Paragraph("Tipo pago:")).SetFontColor(new DeviceRgb(239, 118, 61)).SetFontSize(14).SetBorder(Border.NO_BORDER));
                 table3.AddCell(new Cell().Add(new Paragraph(reservaPDFCheque.TipoPago.ToString())).AddStyle(textStyle).SetBorder(Border.NO_BORDER));
 
-                table3.AddCell(new Cell().Add(new Paragraph("Mensualidad:")).SetFontColor(new DeviceRgb(239, 118, 61)).SetFontSize(14).SetBorder(Border.NO_BORDER));
-                table3.AddCell(new Cell().Add(new Paragraph(reservaPDFCheque.MontoMensualidad.ToString())).AddStyle(textStyle).SetBorder(Border.NO_BORDER));
-
                 document.Add(table3);
+
+                //Detalles factura
+                document.Add(new Paragraph("Detalles factura").AddStyle(subtitleStyle));
+
+                Table table2 = new Table(new float[] { 1, 4 }).SetMarginTop(20).SetWidth(UnitValue.CreatePercentValue(100));
+                table2.SetBorder(Border.NO_BORDER);
+                table2.SetProperty(Property.BORDER_COLLAPSE, BorderCollapsePropertyValue.COLLAPSE);
+
+                table2.AddCell(new Cell().Add(new Paragraph("Subtotal:")).SetFontColor(new DeviceRgb(239, 118, 61)).SetFontSize(14).SetBorder(Border.NO_BORDER));
+                table2.AddCell(new Cell().Add(new Paragraph("$" + reservaPDFCheque.Subtotal.ToString())).AddStyle(textStyle).SetBorder(Border.NO_BORDER));
+
+                table2.AddCell(new Cell().Add(new Paragraph("Impuesto IVA:")).SetFontColor(new DeviceRgb(239, 118, 61)).SetFontSize(14).SetBorder(Border.NO_BORDER));
+                table2.AddCell(new Cell().Add(new Paragraph("$" + reservaPDFCheque.Impuesto.ToString())).AddStyle(textStyle).SetBorder(Border.NO_BORDER));
+
+                table2.AddCell(new Cell().Add(new Paragraph("Descuento:")).SetFontColor(new DeviceRgb(239, 118, 61)).SetFontSize(14).SetBorder(Border.NO_BORDER));
+                table2.AddCell(new Cell().Add(new Paragraph(reservaPDFCheque.Descuento.ToString())).AddStyle(textStyle).SetBorder(Border.NO_BORDER));
+
+                table2.AddCell(new Cell().Add(new Paragraph("Monto total:")).SetFontColor(new DeviceRgb(239, 118, 61)).SetFontSize(14).SetBorder(Border.NO_BORDER));
+                table2.AddCell(new Cell().Add(new Paragraph("$" + reservaPDFCheque.MontoTotal.ToString())).AddStyle(textStyle).SetBorder(Border.NO_BORDER));
+
+                table2.AddCell(new Cell().Add(new Paragraph("Tipo cambio monto total:")).SetFontColor(new DeviceRgb(239, 118, 61)).SetFontSize(14).SetBorder(Border.NO_BORDER));
+                table2.AddCell(new Cell().Add(new Paragraph("\u20A1 " + reservaPDFCheque.TipoCambio.ToString())).AddStyle(textStyle).SetBorder(Border.NO_BORDER));
+
+                table2.AddCell(new Cell().Add(new Paragraph("Adelanto:")).SetFontColor(new DeviceRgb(239, 118, 61)).SetFontSize(14).SetBorder(Border.NO_BORDER));
+                table2.AddCell(new Cell().Add(new Paragraph("$" + reservaPDFCheque.Adelanto.ToString())).AddStyle(textStyle).SetBorder(Border.NO_BORDER));
+
+                table2.AddCell(new Cell().Add(new Paragraph("Mensualidad:")).SetFontColor(new DeviceRgb(239, 118, 61)).SetFontSize(14).SetBorder(Border.NO_BORDER));
+                table2.AddCell(new Cell().Add(new Paragraph("$" + reservaPDFCheque.MontoMensualidad.ToString())).AddStyle(textStyle).SetBorder(Border.NO_BORDER));
+
+                document.Add(table2);
 
                 //Detalles cheque
                 document.Add(new Paragraph("Detalles cheque").AddStyle(subtitleStyle));

@@ -1,5 +1,6 @@
 ﻿using APIHotelBeach.Context;
 using APIHotelBeach.Models;
+using APIHotelBeach.ViewModels;
 using iText.Commons.Actions.Contexts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -166,6 +167,11 @@ namespace APIHotelBeach.Controllers
 
                 if (clienteEncontrado)
                 {
+                    var tipoCambioAPI = new TipoCambioAPI();
+                    var client = tipoCambioAPI.Inicial();
+                    var response = await client.GetStringAsync("/tdc/tdc.json");
+                    var tipoCambio = JsonConvert.DeserializeObject<TipoCambio>(response);
+
                     ReservaClienteEmail reservaClienteEmail = new ReservaClienteEmail();
 
                     reservaClienteEmail.Id = pReserva.Id;
@@ -182,6 +188,7 @@ namespace APIHotelBeach.Controllers
                     reservaClienteEmail.MontoTotal = pReserva.MontoTotal;
                     reservaClienteEmail.Adelanto = pReserva.Adelanto;
                     reservaClienteEmail.MontoMensualidad = pReserva.MontoMensualidad;
+                    reservaClienteEmail.TipoCambio = pReserva.MontoTotal * tipoCambio.compra;
 
                     if (paqueteEncontrado)
                     {
@@ -260,6 +267,11 @@ namespace APIHotelBeach.Controllers
 
                         clienteEncontrado = true;
 
+                        var tipoCambioAPI = new TipoCambioAPI();
+                        var client = tipoCambioAPI.Inicial();
+                        var response = await client.GetStringAsync("/tdc/tdc.json");
+                        var tipoCambio = JsonConvert.DeserializeObject<TipoCambio>(response);
+
                         reservaPDFCheque = new ReservaPDFCheque();
 
                         reservaPDFCheque.CedulaCliente = reserva.CedulaCliente;
@@ -277,6 +289,7 @@ namespace APIHotelBeach.Controllers
                         reservaPDFCheque.MontoMensualidad = reserva.MontoMensualidad;
                         reservaPDFCheque.NumeroCheque = pCheque.NumeroCheque;
                         reservaPDFCheque.NombreBanco = pCheque.NombreBanco;
+                        reservaPDFCheque.TipoCambio = reserva.MontoTotal * tipoCambio.compra;
 
                         
                     }

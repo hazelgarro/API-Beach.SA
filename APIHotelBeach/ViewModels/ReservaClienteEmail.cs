@@ -1,6 +1,6 @@
-﻿namespace APIHotelBeach.Models
+﻿namespace APIHotelBeach.ViewModels
 {
-    public class ReservaPDFCheque
+    public class ReservaClienteEmail
     {
         public int Id { get; set; }
 
@@ -30,8 +30,6 @@
 
         public decimal MontoMensualidad { get; set; }
 
-        public int NumeroCheque { get; set; }
-
-        public string NombreBanco { get; set; }
+        public decimal TipoCambio { get; set; }
     }
 }

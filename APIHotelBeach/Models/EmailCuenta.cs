@@ -27,10 +27,10 @@ namespace APIHotelBeach.Models
                 email.To.Add(new MailAddress(usuario.Email));
 
                 //copia al admin
-                email.To.Add(new MailAddress("hotelbeachsa@outlook.com"));
+                email.To.Add(new MailAddress("sahotelbeach@outlook.com"));
 
                 //emisor
-                email.From = new MailAddress("hotelbeachsa@outlook.com");
+                email.From = new MailAddress("sahotelbeach@outlook.com");
 
                 //html para el body del email
                 htmlBody = htmlBody.Replace("{{Email}}", usuario.Email)
@@ -62,7 +62,7 @@ namespace APIHotelBeach.Models
 
                 //credencialess por default para el buzón de correo
                 smtp.UseDefaultCredentials = false;
-                smtp.Credentials = new NetworkCredential("hotelbeachsa@outlook.com", "beachhotel24");
+                smtp.Credentials = new NetworkCredential("sahotelbeach@outlook.com", "beachhotel24");
 
                 //enviar email
                 smtp.Send(email);

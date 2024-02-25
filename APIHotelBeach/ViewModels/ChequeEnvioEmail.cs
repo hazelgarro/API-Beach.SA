@@ -1,4 +1,4 @@
-﻿namespace APIHotelBeach.Models
+﻿namespace APIHotelBeach.ViewModels
 {
     public class ChequeEnvioEmail
     {
