@@ -65,7 +65,7 @@ namespace APIHotelBeach.Controllers
             }
             catch (Exception ex)
             {
-                msj = "Error: " + ex.Message + " " + ex.InnerException.ToString;
+                msj = "Error: " + ex.Message + " " + ex.InnerException.ToString();
             }
             return msj;
         }//end Agregar
@@ -83,7 +83,7 @@ namespace APIHotelBeach.Controllers
             }
             catch (Exception ex)
             {
-                msj = "Error " + ex.Message + " " + ex.InnerException.ToString;
+                msj = "Error " + ex.Message + " " + ex.InnerException.ToString();
             }
             return msj;
         }//end modificar
@@ -109,7 +109,7 @@ namespace APIHotelBeach.Controllers
             }
             catch (Exception ex)
             {
-                msj = "Error " + ex.Message + " " + ex.InnerException.ToString;
+                msj = "Error " + ex.Message + " " + ex.InnerException.ToString();
             }
             return msj;
         }//end Eliminar

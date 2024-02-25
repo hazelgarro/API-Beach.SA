@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Diagnostics.Metrics;
+using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
 
 namespace APIHotelBeach.Controllers
 {
@@ -210,6 +211,28 @@ namespace APIHotelBeach.Controllers
                                 mensaje = "Reservacion agregada correctamente, pero el email no pudo ser enviado.";
                             }
                         }
+
+                        //Proceso de auditoria al agregar reservacion
+                        ReservacionAuditoria reservacionAuditoria = new ReservacionAuditoria();
+
+                        reservacionAuditoria.Accion = "AGREGADO";
+                        reservacionAuditoria.FechaCambio = DateTime.Now;
+                        reservacionAuditoria.Id = pReserva.Id;
+                        reservacionAuditoria.CedulaCliente = pReserva.CedulaCliente;
+                        reservacionAuditoria.IdPaquete = pReserva.IdPaquete;
+                        reservacionAuditoria.TipoPago = pReserva.TipoPago;
+                        reservacionAuditoria.FechaReserva = pReserva.FechaReserva;
+                        reservacionAuditoria.Duracion = pReserva.Duracion;
+                        reservacionAuditoria.Subtotal = pReserva.Subtotal;
+                        reservacionAuditoria.Impuesto = pReserva.Impuesto;
+                        reservacionAuditoria.Descuento = pReserva.Descuento;
+                        reservacionAuditoria.MontoTotal = pReserva.MontoTotal;
+                        reservacionAuditoria.Adelanto = pReserva.Adelanto;
+                        reservacionAuditoria.MontoMensualidad = pReserva.MontoMensualidad;
+                        reservacionAuditoria.Estado = pReserva.Estado;
+
+                        _context.Reservaciones_Auditoria.Add(reservacionAuditoria);
+                        await _context.SaveChangesAsync();
                     }
                     else
                     {
@@ -319,7 +342,7 @@ namespace APIHotelBeach.Controllers
             }
             catch (Exception ex)
             {
-                mensaje = "Error: " + ex.Message + " " + ex.InnerException.ToString;
+                mensaje = "Error: " + ex.Message + " " + ex.InnerException.ToString();
             }
 
             return mensaje;
@@ -332,10 +355,10 @@ namespace APIHotelBeach.Controllers
         {
             string mensaje = "";
             bool clienteEncontrado = false;
-            bool paqueteEncontrado = false;
             decimal porcAdelanto = 0;
             decimal montoConDescuento = 0;
             int meses = 0;
+            Reservacion reservacion = new Reservacion();
 
             try
             {
@@ -349,7 +372,6 @@ namespace APIHotelBeach.Controllers
 
                     if (paquete != null)
                     {
-                        paqueteEncontrado = true;
                         pReserva.Subtotal = paquete.Precio * pReserva.Duracion;
                         pReserva.Impuesto = (pReserva.Subtotal * 13) / 100;
                         porcAdelanto = paquete.PorcentajePrima;
@@ -391,11 +413,35 @@ namespace APIHotelBeach.Controllers
 
                         pReserva.MontoMensualidad = (pReserva.MontoTotal - pReserva.Adelanto) / meses;
 
+                        var tempReserva = await _context.Reservaciones.AsNoTracking().FirstOrDefaultAsync(f => f.Id == pReserva.Id);
+                        reservacion = tempReserva;
 
                         _context.Reservaciones.Update(pReserva);
-                        _context.SaveChanges();
+                        await _context.SaveChangesAsync();
 
                         mensaje = "Reservacion modificada correctamente";
+
+                        //Proceso de auditoria al eliminar reservacion
+                        ReservacionAuditoria reservacionAuditoria = new ReservacionAuditoria();
+
+                        reservacionAuditoria.Accion = "MODIFICADO";
+                        reservacionAuditoria.FechaCambio = DateTime.Now;
+                        reservacionAuditoria.Id = reservacion.Id;
+                        reservacionAuditoria.CedulaCliente = reservacion.CedulaCliente;
+                        reservacionAuditoria.IdPaquete = reservacion.IdPaquete;
+                        reservacionAuditoria.TipoPago = reservacion.TipoPago;
+                        reservacionAuditoria.FechaReserva = reservacion.FechaReserva;
+                        reservacionAuditoria.Duracion = reservacion.Duracion;
+                        reservacionAuditoria.Subtotal = reservacion.Subtotal;
+                        reservacionAuditoria.Impuesto = reservacion.Impuesto;
+                        reservacionAuditoria.Descuento = reservacion.Descuento;
+                        reservacionAuditoria.MontoTotal = reservacion.MontoTotal;
+                        reservacionAuditoria.Adelanto = reservacion.Adelanto;
+                        reservacionAuditoria.MontoMensualidad = reservacion.MontoMensualidad;
+                        reservacionAuditoria.Estado = reservacion.Estado;
+
+                        _context.Reservaciones_Auditoria.Add(reservacionAuditoria);
+                        await _context.SaveChangesAsync();
 
                     }
                     else
@@ -421,17 +467,52 @@ namespace APIHotelBeach.Controllers
         public async Task<string> Eliminar(int id)
         {
             string mensaje = "No se eliminó la reservación";
+            Reservacion reservacion = new Reservacion();
 
             try
             {
                 var temp = await _context.Reservaciones.FirstOrDefaultAsync(f => f.Id == id);
+                reservacion = temp;
 
                 if (temp != null)
                 {
+                    if (temp.TipoPago.Equals("Cheque"))
+                    {
+                        var cheque = await _context.Cheques.FirstOrDefaultAsync(f => f.IdReservacion == id);
+
+                        if (cheque != null)
+                        {
+                            _context.Cheques.Remove(cheque);
+                            await _context.SaveChangesAsync();
+                        }
+                    }
+
                     _context.Reservaciones.Remove(temp);
                     await _context.SaveChangesAsync();
 
                     mensaje = "Reservación eliminada correctamente";
+
+                    //Proceso de auditoria al eliminar reservacion
+                    ReservacionAuditoria reservacionAuditoria = new ReservacionAuditoria();
+
+                    reservacionAuditoria.Accion = "ELIMINADO";
+                    reservacionAuditoria.FechaCambio = DateTime.Now;
+                    reservacionAuditoria.Id = reservacion.Id;
+                    reservacionAuditoria.CedulaCliente = reservacion.CedulaCliente;
+                    reservacionAuditoria.IdPaquete = reservacion.IdPaquete;
+                    reservacionAuditoria.TipoPago = reservacion.TipoPago;
+                    reservacionAuditoria.FechaReserva = reservacion.FechaReserva;
+                    reservacionAuditoria.Duracion = reservacion.Duracion;
+                    reservacionAuditoria.Subtotal = reservacion.Subtotal;
+                    reservacionAuditoria.Impuesto = reservacion.Impuesto;
+                    reservacionAuditoria.Descuento = reservacion.Descuento;
+                    reservacionAuditoria.MontoTotal = reservacion.MontoTotal;
+                    reservacionAuditoria.Adelanto = reservacion.Adelanto;
+                    reservacionAuditoria.MontoMensualidad = reservacion.MontoMensualidad;
+                    reservacionAuditoria.Estado = reservacion.Estado;
+
+                    _context.Reservaciones_Auditoria.Add(reservacionAuditoria);
+                    await _context.SaveChangesAsync();
                 }
             }
             catch (Exception ex)

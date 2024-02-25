@@ -112,7 +112,7 @@ namespace APIHotelBeach.Controllers
             }
             catch (Exception ex)
             {
-                msj = "Error " + ex.Message + " " + ex.InnerException.ToString;
+                msj = "Error " + ex.Message + " " + ex.InnerException.ToString();
             }
             return msj;
         }//end modificar
@@ -231,7 +231,7 @@ namespace APIHotelBeach.Controllers
 
                     var userPrincipal = new ClaimsPrincipal(new[] { grandIdentity });
 
-                    HttpContext.SignInAsync(userPrincipal);
+                    await HttpContext.SignInAsync(userPrincipal);
 
                     mensaje = "Ha iniciado sesión";
                 }

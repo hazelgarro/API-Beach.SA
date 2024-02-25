@@ -13,5 +13,8 @@ namespace APIHotelBeach.Context
         public DbSet<Paquete> Paquetes { get; set; }
         public DbSet<Reservacion> Reservaciones { get; set; }
         public DbSet<Cheque> Cheques { get; set; }
+
+        //auditorias
+        public DbSet<ReservacionAuditoria> Reservaciones_Auditoria { get; set; }
     }
 }

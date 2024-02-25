@@ -67,7 +67,7 @@ namespace APIHotelBeach.Controllers
             }
             catch (Exception ex)
             {
-                mensaje = "Error " + ex.Message + " " + ex.InnerException.ToString;
+                mensaje = "Error " + ex.Message + " " + ex.InnerException.ToString();
             }
             return mensaje;
         }
@@ -93,7 +93,7 @@ namespace APIHotelBeach.Controllers
             }
             catch (Exception ex)
             {
-                mensaje = "Error " + ex.Message + " " + ex.InnerException.ToString;
+                mensaje = "Error " + ex.Message + " " + ex.InnerException.ToString();
             }
             return mensaje;
         }
