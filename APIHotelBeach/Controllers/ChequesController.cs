@@ -35,33 +35,80 @@ namespace APIHotelBeach.Controllers
 
         //[Authorize]
         [HttpPost("Agregar")]
-        public string Agregar(Cheque pCheque)
+        public async Task<string> Agregar(Cheque pCheque)
         {
             string mensaje = "";
+            bool chequeEncontrado = false;
 
             try
             {
-                _context.Cheques.Add(pCheque);
-                _context.SaveChanges();
-                mensaje = "Cheque registrado correctamente";
+                var cheques = await _context.Cheques.ToListAsync();
+
+                foreach (var item in cheques)
+                {
+                    if (!chequeEncontrado)
+                    {
+                        if (item.NumeroCheque == pCheque.NumeroCheque)
+                        {
+                            chequeEncontrado = true;
+                        }
+                    }
+                }
+
+                if (chequeEncontrado)
+                {
+                    mensaje = "El cheque con ese numero ya se encuentra registrado.";
+                }
+                else
+                {
+                    _context.Cheques.Add(pCheque);
+                    await _context.SaveChangesAsync();
+                    mensaje = "Cheque registrado correctamente";
+                }
             }
             catch (Exception ex)
             {
                 mensaje = "Error: " + ex.Message + " " + ex.InnerException.ToString;
             }
+
             return mensaje;
         }
 
         //[Authorize]
         [HttpPut("Modificar")]
-        public string Modificar(Cheque pCheque)
+        public async Task<string> Modificar(Cheque pCheque)
         {
             string mensaje = "";
+            bool chequeEncontrado = false;
+
             try
             {
-                _context.Cheques.Update(pCheque);
-                _context.SaveChanges();
-                mensaje = "Cheque modificado correctamente";
+                var cheques = await _context.Cheques.ToListAsync();
+
+                foreach (var item in cheques)
+                {
+                    if (!chequeEncontrado)
+                    {
+                        if (item.NumeroCheque == pCheque.NumeroCheque)
+                        {
+                            if (item.IdReservacion != pCheque.IdReservacion)
+                            {
+                                chequeEncontrado = true;
+                            }
+                        }
+                    }
+                }
+
+                if (chequeEncontrado)
+                {
+                    mensaje = "El cheque con ese numero ya se encuentra registrado.";
+                }
+                else
+                {
+                    _context.Cheques.Update(pCheque);
+                    await _context.SaveChangesAsync();
+                    mensaje = "Cheque modificado correctamente";
+                }
             }
             catch (Exception ex)
             {
