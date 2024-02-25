@@ -242,7 +242,7 @@ namespace APIHotelBeach.Controllers
 
             Cheque pCheque = new Cheque();
             pCheque.IdCheque = chequeEnvioEmail.IdCheque;
-            pCheque.NumeroCheque = chequeEnvioEmail.IdCheque;
+            pCheque.NumeroCheque = chequeEnvioEmail.NumeroCheque;
             pCheque.NombreBanco = chequeEnvioEmail.NombreBanco;
             pCheque.IdReservacion = chequeEnvioEmail.IdReservacion;
 
@@ -416,7 +416,7 @@ namespace APIHotelBeach.Controllers
                 if (temp != null)
                 {
                     _context.Reservaciones.Remove(temp);
-                    _context.SaveChanges();
+                    await _context.SaveChangesAsync();
 
                     mensaje = "Reservación eliminada correctamente";
                 }
