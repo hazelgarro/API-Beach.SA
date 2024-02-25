@@ -38,24 +38,12 @@ namespace APIHotelBeach.Controllers
         public async Task<string> Agregar(Cheque pCheque)
         {
             string mensaje = "";
-            bool chequeEncontrado = false;
 
             try
             {
-                var cheques = await _context.Cheques.ToListAsync();
+                var cheque = await _context.Cheques.FirstOrDefaultAsync(c => c.NumeroCheque == pCheque.NumeroCheque);
 
-                foreach (var item in cheques)
-                {
-                    if (!chequeEncontrado)
-                    {
-                        if (item.NumeroCheque == pCheque.NumeroCheque)
-                        {
-                            chequeEncontrado = true;
-                        }
-                    }
-                }
-
-                if (chequeEncontrado)
+                if (cheque != null)
                 {
                     mensaje = "El cheque con ese numero ya se encuentra registrado.";
                 }
@@ -79,29 +67,25 @@ namespace APIHotelBeach.Controllers
         public async Task<string> Modificar(Cheque pCheque)
         {
             string mensaje = "";
-            bool chequeEncontrado = false;
 
             try
             {
-                var cheques = await _context.Cheques.ToListAsync();
+                var cheque = await _context.Cheques.FirstOrDefaultAsync(c => c.NumeroCheque == pCheque.NumeroCheque);
 
-                foreach (var item in cheques)
+                if (cheque != null)
                 {
-                    if (!chequeEncontrado)
+                    if (cheque.IdCheque == pCheque.IdCheque)
                     {
-                        if (item.NumeroCheque == pCheque.NumeroCheque)
-                        {
-                            if (item.IdReservacion != pCheque.IdReservacion)
-                            {
-                                chequeEncontrado = true;
-                            }
-                        }
-                    }
-                }
+                        _context.Entry(cheque).State = EntityState.Detached;
 
-                if (chequeEncontrado)
-                {
-                    mensaje = "El cheque con ese numero ya se encuentra registrado.";
+                        _context.Cheques.Update(pCheque);
+                        await _context.SaveChangesAsync();
+                        mensaje = "Cheque modificado correctamente";
+                    }
+                    else
+                    {
+                        mensaje = "No se pudo modificar el cheque. El cheque con ese número ya se encuentra registrado.";
+                    }
                 }
                 else
                 {
