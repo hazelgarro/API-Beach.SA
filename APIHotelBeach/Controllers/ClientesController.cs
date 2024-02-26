@@ -44,6 +44,25 @@ namespace APIHotelBeach.Controllers
             }
         }
 
+        [HttpGet("ClienteLogin")]
+        public async Task<ActionResult<object>> DatosCliente(string email)
+        {
+            var cliente = await _context.Clientes
+                .Where(c => c.Email == email)
+                .Select(c => new { TipoUsuario = c.TipoUsuario, Cedula = c.Cedula, Restablecer = c.Restablecer })
+                .FirstOrDefaultAsync();
+
+            if (cliente == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return cliente;
+            }
+        }
+
+
         //Registrar cliente
         [HttpPost("CrearCuenta")]
         public string CrearCuenta(Cliente cliente)

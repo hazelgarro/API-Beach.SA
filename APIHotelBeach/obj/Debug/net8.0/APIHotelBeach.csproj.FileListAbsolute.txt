@@ -599,3 +599,4 @@ F:\Universidad de Costa Rica\Verano 3\Proyecto Final\API-Beach.SA\APIHotelBeach\
 F:\Universidad de Costa Rica\Verano 3\Proyecto Final\API-Beach.SA\APIHotelBeach\obj\Debug\net8.0\APIHotelBeach.pdb
 F:\Universidad de Costa Rica\Verano 3\Proyecto Final\API-Beach.SA\APIHotelBeach\obj\Debug\net8.0\APIHotelBeach.genruntimeconfig.cache
 F:\Universidad de Costa Rica\Verano 3\Proyecto Final\API-Beach.SA\APIHotelBeach\obj\Debug\net8.0\ref\APIHotelBeach.dll
+C:\Users\Dianis\source\repos\API-Beach.SA\APIHotelBeach\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

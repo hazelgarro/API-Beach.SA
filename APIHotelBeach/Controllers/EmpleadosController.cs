@@ -37,6 +37,24 @@ namespace APIHotelBeach.Controllers
             }//end if/else
         }//end Listado
 
+        [HttpGet("EmpleadoLogin")]
+        public async Task<ActionResult<object>> DatosEmpleado(string email)
+        {
+            var empleado = await _context.Empleados
+                .Where(e => e.Email == email)
+                .Select(e => new { TipoUsuario = e.TipoUsuario })
+                .FirstOrDefaultAsync();
+
+            if (empleado == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return empleado;
+            }
+        }
+
         [Authorize]
         [HttpGet("Consultar")]
         public async Task<Empleado> Consultar(int ID)

@@ -7242,19 +7242,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Mónica Artavia\\.nuget\\packages\\": {}
+    "C:\\Users\\Dianis\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "F:\\Universidad de Costa Rica\\Verano 3\\Proyecto Final\\API-Beach.SA\\APIHotelBeach\\APIHotelBeach.csproj",
+      "projectUniqueName": "C:\\Users\\Dianis\\source\\repos\\API-Beach.SA\\APIHotelBeach\\APIHotelBeach.csproj",
       "projectName": "APIHotelBeach",
-      "projectPath": "F:\\Universidad de Costa Rica\\Verano 3\\Proyecto Final\\API-Beach.SA\\APIHotelBeach\\APIHotelBeach.csproj",
-      "packagesPath": "C:\\Users\\Mónica Artavia\\.nuget\\packages\\",
-      "outputPath": "F:\\Universidad de Costa Rica\\Verano 3\\Proyecto Final\\API-Beach.SA\\APIHotelBeach\\obj\\",
+      "projectPath": "C:\\Users\\Dianis\\source\\repos\\API-Beach.SA\\APIHotelBeach\\APIHotelBeach.csproj",
+      "packagesPath": "C:\\Users\\Dianis\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Dianis\\source\\repos\\API-Beach.SA\\APIHotelBeach\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Mónica Artavia\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Dianis\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
