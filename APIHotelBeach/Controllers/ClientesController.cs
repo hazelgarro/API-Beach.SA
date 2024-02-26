@@ -127,7 +127,6 @@ namespace APIHotelBeach.Controllers
 
         }
 
-        [Authorize]
         [HttpGet("BuscarCorreo")]
         public async Task<Cliente> GetClientCorreo(string email)
         {

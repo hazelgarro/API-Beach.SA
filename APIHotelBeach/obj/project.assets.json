@@ -7242,19 +7242,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Dianis\\.nuget\\packages\\": {}
+    "C:\\Users\\Jennifer Rodriguez\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Dianis\\source\\repos\\API-Beach.SA\\APIHotelBeach\\APIHotelBeach.csproj",
+      "projectUniqueName": "C:\\Users\\Jennifer Rodriguez\\Desktop\\ITM\\Programación avanzada con Asp.net\\Trabajos\\Proyecto final\\API-Beach.SA\\APIHotelBeach\\APIHotelBeach.csproj",
       "projectName": "APIHotelBeach",
-      "projectPath": "C:\\Users\\Dianis\\source\\repos\\API-Beach.SA\\APIHotelBeach\\APIHotelBeach.csproj",
-      "packagesPath": "C:\\Users\\Dianis\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Dianis\\source\\repos\\API-Beach.SA\\APIHotelBeach\\obj\\",
+      "projectPath": "C:\\Users\\Jennifer Rodriguez\\Desktop\\ITM\\Programación avanzada con Asp.net\\Trabajos\\Proyecto final\\API-Beach.SA\\APIHotelBeach\\APIHotelBeach.csproj",
+      "packagesPath": "C:\\Users\\Jennifer Rodriguez\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Jennifer Rodriguez\\Desktop\\ITM\\Programación avanzada con Asp.net\\Trabajos\\Proyecto final\\API-Beach.SA\\APIHotelBeach\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Dianis\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Jennifer Rodriguez\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -7324,7 +7324,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
