@@ -104,13 +104,13 @@ namespace APIHotelBeach.Controllers
 
                 paqueteAuditoria.Accion = "MODIFICADO";
                 paqueteAuditoria.FechaCambio = DateTime.Now;
-                paqueteAuditoria.ID = paquete.ID;
-                paqueteAuditoria.NombrePaquete = paquete.NombrePaquete;
-                paqueteAuditoria.Precio = paquete.Precio;
-                paqueteAuditoria.PorcentajePrima = paquete.PorcentajePrima;
-                paqueteAuditoria.LimiteMeses = paquete.LimiteMeses;
-                paqueteAuditoria.FechaRegistro = paquete.FechaRegistro;
-                paqueteAuditoria.Estado = paquete.Estado;
+                paqueteAuditoria.ID = tempPaquete.ID;
+                paqueteAuditoria.NombrePaquete = tempPaquete.NombrePaquete;
+                paqueteAuditoria.Precio = tempPaquete.Precio;
+                paqueteAuditoria.PorcentajePrima = tempPaquete.PorcentajePrima;
+                paqueteAuditoria.LimiteMeses = tempPaquete.LimiteMeses;
+                paqueteAuditoria.FechaRegistro = tempPaquete.FechaRegistro;
+                paqueteAuditoria.Estado = tempPaquete.Estado;
 
                 _context.Paquetes_Auditoria.Add(paqueteAuditoria);
                 _context.SaveChanges();
