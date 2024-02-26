@@ -177,7 +177,7 @@ namespace APIHotelBeach.Controllers
 
                     mensaje = "Cliente " + data.NombreCompleto + " eliminado correctamente";
 
-                    //Proceso de auditoria al agregar cliente
+                    //Proceso de auditoria al eliminar cliente
                     ClienteAuditoria clienteAuditoria = new ClienteAuditoria();
 
                     clienteAuditoria.Accion = "ELIMINADO";

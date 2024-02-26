@@ -62,6 +62,22 @@ namespace APIHotelBeach.Controllers
                 _context.Paquetes.Add(paquete);
                 _context.SaveChanges();
                 msj = "Paquete registrado correctamente";
+
+                //Proceso de auditoria al agregar paquete
+                PaqueteAuditoria paqueteAuditoria = new PaqueteAuditoria();
+
+                paqueteAuditoria.Accion = "AGREGADO";
+                paqueteAuditoria.FechaCambio = DateTime.Now;
+                paqueteAuditoria.ID = paquete.ID;
+                paqueteAuditoria.NombrePaquete = paquete.NombrePaquete;
+                paqueteAuditoria.Precio = paquete.Precio;
+                paqueteAuditoria.PorcentajePrima = paquete.PorcentajePrima;
+                paqueteAuditoria.LimiteMeses = paquete.LimiteMeses;
+                paqueteAuditoria.FechaRegistro = paquete.FechaRegistro;
+                paqueteAuditoria.Estado = paquete.Estado;
+
+                _context.Paquetes_Auditoria.Add(paqueteAuditoria);
+                _context.SaveChanges();
             }
             catch (Exception ex)
             {
@@ -77,9 +93,27 @@ namespace APIHotelBeach.Controllers
             string msj = "";
             try
             {
+                var tempPaquete = _context.Paquetes.AsNoTracking().FirstOrDefault(f => f.ID == paquete.ID);
+
                 _context.Paquetes.Update(paquete);
                 _context.SaveChanges();
                 msj = "Paquete modificado correctamente";
+
+                //Proceso de auditoria al modificar paquete
+                PaqueteAuditoria paqueteAuditoria = new PaqueteAuditoria();
+
+                paqueteAuditoria.Accion = "MODIFICADO";
+                paqueteAuditoria.FechaCambio = DateTime.Now;
+                paqueteAuditoria.ID = paquete.ID;
+                paqueteAuditoria.NombrePaquete = paquete.NombrePaquete;
+                paqueteAuditoria.Precio = paquete.Precio;
+                paqueteAuditoria.PorcentajePrima = paquete.PorcentajePrima;
+                paqueteAuditoria.LimiteMeses = paquete.LimiteMeses;
+                paqueteAuditoria.FechaRegistro = paquete.FechaRegistro;
+                paqueteAuditoria.Estado = paquete.Estado;
+
+                _context.Paquetes_Auditoria.Add(paqueteAuditoria);
+                _context.SaveChanges();
             }
             catch (Exception ex)
             {
@@ -105,6 +139,22 @@ namespace APIHotelBeach.Controllers
                     _context.Paquetes.Remove(temp);
                     await _context.SaveChangesAsync();
                     msj = $"Paquete con el ID {temp.ID}, eliminado correctamente";
+
+                    //Proceso de auditoria al eliminar paquete
+                    PaqueteAuditoria paqueteAuditoria = new PaqueteAuditoria();
+
+                    paqueteAuditoria.Accion = "ELIMINADO";
+                    paqueteAuditoria.FechaCambio = DateTime.Now;
+                    paqueteAuditoria.ID = temp.ID;
+                    paqueteAuditoria.NombrePaquete = temp.NombrePaquete;
+                    paqueteAuditoria.Precio = temp.Precio;
+                    paqueteAuditoria.PorcentajePrima = temp.PorcentajePrima;
+                    paqueteAuditoria.LimiteMeses = temp.LimiteMeses;
+                    paqueteAuditoria.FechaRegistro = temp.FechaRegistro;
+                    paqueteAuditoria.Estado = temp.Estado;
+
+                    _context.Paquetes_Auditoria.Add(paqueteAuditoria);
+                    await _context.SaveChangesAsync();
                 }
             }
             catch (Exception ex)

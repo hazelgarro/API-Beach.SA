@@ -17,5 +17,7 @@ namespace APIHotelBeach.Context
         //auditorias
         public DbSet<ReservacionAuditoria> Reservaciones_Auditoria { get; set; }
         public DbSet<ClienteAuditoria> Clientes_Auditoria { get; set; }
+        public DbSet<PaqueteAuditoria> Paquetes_Auditoria { get; set; }
+        public DbSet<EmpleadoAuditoria> Empleados_Auditoria { get; set; }
     }
 }
