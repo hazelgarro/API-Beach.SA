@@ -7,6 +7,7 @@ using APIHotelBeach.Services;
 using Microsoft.AspNetCore.Authentication;
 using System.Security.Claims;
 using static APIHotelBeach.Models.Cliente;
+using Microsoft.AspNetCore.Authorization;
 
 namespace APIHotelBeach.Controllers
 {
@@ -27,7 +28,7 @@ namespace APIHotelBeach.Controllers
 
         //***   MÉTODOS  CRUD   ***
 
-        //[Authorize]
+        [Authorize]
         [HttpGet("Listado")]
         public async Task<List<Cliente>> Index()
         {
@@ -98,7 +99,7 @@ namespace APIHotelBeach.Controllers
         }
 
         //metodo para buscar por cedula
-        //[Authorize]
+        [Authorize]
         [HttpGet("Buscar")]
         public async Task<Cliente> GetClient(string cedula)
         {
@@ -107,7 +108,7 @@ namespace APIHotelBeach.Controllers
 
         }
 
-
+        [Authorize]
         [HttpGet("BuscarCorreo")]
         public async Task<Cliente> GetClientCorreo(string email)
         {
@@ -117,7 +118,7 @@ namespace APIHotelBeach.Controllers
         }
 
         //Modificar cliente
-        //[Authorize]
+        [Authorize]
         [HttpPut("Modificar")]
         public string Modificar(Cliente cliente)
         {
@@ -161,7 +162,7 @@ namespace APIHotelBeach.Controllers
         }//end modificar
 
         //eliminar cliente
-        //[Authorize]
+        [Authorize]
         [HttpDelete("EliminarCliente")]
         public async Task<string> Eliminar(string vCedula)
         {
@@ -340,8 +341,8 @@ namespace APIHotelBeach.Controllers
         }
     
 
-    //validar email y password
-    [HttpPost]
+        //validar email y password
+        [HttpPost]
         [Route("AutenticarPW")]
         public async Task<IActionResult> AutenticarPW(string email, string password)
         {

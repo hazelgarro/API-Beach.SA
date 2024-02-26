@@ -31,7 +31,7 @@ namespace APIHotelBeach.Controllers
         //***   MÉTODOS     CRUD ***
 
         //lista de todas las reservaciones
-        //[Authorize]
+        [Authorize]
         [HttpGet("ListaReservas")]
         public async Task<List<Reservacion>> ListaReservas()
         {
@@ -41,7 +41,7 @@ namespace APIHotelBeach.Controllers
         }
 
         //lista de reservaciones de un cliente especifico
-        //[Authorize]
+        [Authorize]
         [HttpGet("ListaReservasCliente")]
         public async Task<List<Reservacion>> ListaReservasCliente(string cedula)
         {
@@ -61,7 +61,7 @@ namespace APIHotelBeach.Controllers
         }
 
         //Agregar reservacion
-        //[Authorize]
+        [Authorize]
         [HttpPost("AgregarReserva")]
         public async Task<string> AgregarReserva(Reservacion pReserva)
         {
@@ -253,7 +253,7 @@ namespace APIHotelBeach.Controllers
         }
 
         //BuscarReserva
-        //[Authorize]
+        [Authorize]
         [HttpGet("BuscarReserva")]
         public async Task<Reservacion> BuscarReserva(int id)
         {
@@ -262,7 +262,7 @@ namespace APIHotelBeach.Controllers
         }
 
         //Agregar cheque
-        //[Authorize]
+        [Authorize]
         [HttpPost("AgregarCheque")]
         public async Task<string> AgregarCheque(ChequeEnvioEmail chequeEnvioEmail)
         {
@@ -349,7 +349,7 @@ namespace APIHotelBeach.Controllers
         }
 
         //Editar
-        //[Authorize]
+        [Authorize]
         [HttpPut("Editar")]
         public async Task<string> Editar(Reservacion pReserva)
         {
@@ -462,7 +462,7 @@ namespace APIHotelBeach.Controllers
             return mensaje;
         }
 
-        //[Authorize]
+        [Authorize]
         [HttpDelete("Eliminar")]
         public async Task<string> Eliminar(int id)
         {

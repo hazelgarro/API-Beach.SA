@@ -19,7 +19,7 @@ namespace APIHotelBeach.Controllers
             _context = pContext;
         }//end PaquetesController
 
-        //[Authorize] 
+        [Authorize] 
         [HttpGet("Listado")]
         public async Task<List<Paquete>> Listado()
         {
@@ -34,7 +34,7 @@ namespace APIHotelBeach.Controllers
             }//end if/else
         }//end Listado
 
-        //[Authorize]
+        [Authorize]
         [HttpGet("Consultar")]
         public async Task<Paquete> Consultar(int ID)
         {
@@ -42,15 +42,7 @@ namespace APIHotelBeach.Controllers
             return temp;
         }//end Consultar
 
-        ////[Authorize]
-        //[HttpGet("Consultar")]
-        //public async Task<Paquete> Consultar(string nombrePaquete)
-        //{
-        //    var temp = await _context.Paquetes.FirstOrDefaultAsync(p => p.NombrePaquete == nombrePaquete);
-        //    return temp;
-        //}//end Consultar
-
-        //[Authorize]
+        [Authorize]
         [HttpPost("Agregar")]
         public string Agregar(Paquete paquete)
         {
@@ -86,7 +78,7 @@ namespace APIHotelBeach.Controllers
             return msj;
         }//end Agregar
 
-        //[Authorize]
+        [Authorize]
         [HttpPut("Modificar")]
         public string Modificar(Paquete paquete)
         {
@@ -122,7 +114,7 @@ namespace APIHotelBeach.Controllers
             return msj;
         }//end modificar
 
-        //[Authorize]
+        [Authorize]
         [HttpDelete("Eliminar")]
         public async Task<string> Eliminar(int ID)
         {

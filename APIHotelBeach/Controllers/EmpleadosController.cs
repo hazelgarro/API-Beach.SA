@@ -22,7 +22,7 @@ namespace APIHotelBeach.Controllers
         }//end EmpleadoController
 
 
-        //[Authorize] 
+        [Authorize] 
         [HttpGet("Listado")]
         public async Task<List<Empleado>> Listado()
         {
@@ -37,7 +37,7 @@ namespace APIHotelBeach.Controllers
             }//end if/else
         }//end Listado
 
-        //[Authorize]
+        [Authorize]
         [HttpGet("Consultar")]
         public async Task<Empleado> Consultar(int ID)
         {
@@ -81,7 +81,7 @@ namespace APIHotelBeach.Controllers
             return msj;
         }//end Agregar
 
-        //[Authorize]
+        [Authorize]
         [HttpPut("Modificar")]
         public string Modificar(Empleado empleado)
         {
@@ -117,7 +117,7 @@ namespace APIHotelBeach.Controllers
             return msj;
         }//end modificar
 
-        //[Authorize]
+        [Authorize]
         [HttpDelete("Eliminar")]
         public async Task<string> Eliminar(int ID)
         {

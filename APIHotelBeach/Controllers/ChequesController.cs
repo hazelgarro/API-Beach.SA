@@ -1,5 +1,6 @@
 ﻿using APIHotelBeach.Context;
 using APIHotelBeach.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,7 +17,7 @@ namespace APIHotelBeach.Controllers
             _context = pContext;
         }
 
-        //[Authorize]
+        [Authorize]
         [HttpGet("Listado")]
         public async Task<List<Cheque>> Listado()
         {
@@ -25,7 +26,7 @@ namespace APIHotelBeach.Controllers
             return list;
         }
 
-        //[Authorize]
+        [Authorize]
         [HttpGet("Consultar")]
         public async Task<Cheque> Consultar(int Id)
         {
@@ -33,7 +34,7 @@ namespace APIHotelBeach.Controllers
             return temp;
         }
 
-        //[Authorize]
+        [Authorize]
         [HttpPut("Modificar")]
         public async Task<string> Modificar(Cheque pCheque)
         {
@@ -72,7 +73,7 @@ namespace APIHotelBeach.Controllers
             return mensaje;
         }
 
-        //[Authorize]
+        [Authorize]
         [HttpDelete("Eliminar")]
         public async Task<string> Eliminar(int Id)
         {
