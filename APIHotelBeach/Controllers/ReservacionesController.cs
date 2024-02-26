@@ -534,7 +534,7 @@ namespace APIHotelBeach.Controllers
 
                 EmailReservacion email = new EmailReservacion();
 
-                email.EnviarPDF(reservaClienteEmail);
+                //email.EnviarPDF(reservaClienteEmail);
 
                 enviado = true;
 

@@ -68,7 +68,25 @@ namespace APIHotelBeach.Controllers
                         mensaje = "Cuenta creada pero su contraseña no fue enviada por email";
                     }
 
-                    return mensaje;
+                    //Proceso de auditoria al agregar cliente
+                    ClienteAuditoria clienteAuditoria = new ClienteAuditoria();
+
+                    clienteAuditoria.Accion = "AGREGADO";
+                    clienteAuditoria.FechaCambio = DateTime.Now;
+                    clienteAuditoria.Cedula = cliente.Cedula;
+                    clienteAuditoria.TipoCedula = cliente.TipoCedula;
+                    clienteAuditoria.NombreCompleto = cliente.NombreCompleto;
+                    clienteAuditoria.Telefono = cliente.Telefono;
+                    clienteAuditoria.Direccion = cliente.Direccion;
+                    clienteAuditoria.Email = cliente.Email;
+                    clienteAuditoria.Password = cliente.Password;
+                    clienteAuditoria.TipoUsuario = cliente.TipoUsuario;
+                    clienteAuditoria.Restablecer = cliente.Restablecer;
+                    clienteAuditoria.FechaRegistro = cliente.FechaRegistro;
+                    clienteAuditoria.Estado = cliente.Estado;
+
+                    _context.Clientes_Auditoria.Add(clienteAuditoria);
+                    _context.SaveChanges();
                 }
                 catch (Exception e)
                 {
@@ -104,11 +122,36 @@ namespace APIHotelBeach.Controllers
         public string Modificar(Cliente cliente)
         {
             string msj = "";
+            Cliente vCliente = new Cliente();
+
             try
             {
+                var tempCliente = _context.Clientes.AsNoTracking().FirstOrDefault(f => f.Cedula == cliente.Cedula);
+                vCliente = tempCliente;
+
                 _context.Clientes.Update(cliente);
                 _context.SaveChanges();
                 msj = "Cliente modificado correctamente";
+
+                //Proceso de auditoria al modificar cliente
+                ClienteAuditoria clienteAuditoria = new ClienteAuditoria();
+
+                clienteAuditoria.Accion = "MODIFICADO";
+                clienteAuditoria.FechaCambio = DateTime.Now;
+                clienteAuditoria.Cedula = vCliente.Cedula;
+                clienteAuditoria.TipoCedula = vCliente.TipoCedula;
+                clienteAuditoria.NombreCompleto = vCliente.NombreCompleto;
+                clienteAuditoria.Telefono = vCliente.Telefono;
+                clienteAuditoria.Direccion = vCliente.Direccion;
+                clienteAuditoria.Email = vCliente.Email;
+                clienteAuditoria.Password = vCliente.Password;
+                clienteAuditoria.TipoUsuario = vCliente.TipoUsuario;
+                clienteAuditoria.Restablecer = vCliente.Restablecer;
+                clienteAuditoria.FechaRegistro = vCliente.FechaRegistro;
+                clienteAuditoria.Estado = vCliente.Estado;
+
+                _context.Clientes_Auditoria.Add(clienteAuditoria);
+                _context.SaveChanges();
             }
             catch (Exception ex)
             {
@@ -133,6 +176,26 @@ namespace APIHotelBeach.Controllers
                     _context.SaveChanges();
 
                     mensaje = "Cliente " + data.NombreCompleto + " eliminado correctamente";
+
+                    //Proceso de auditoria al agregar cliente
+                    ClienteAuditoria clienteAuditoria = new ClienteAuditoria();
+
+                    clienteAuditoria.Accion = "ELIMINADO";
+                    clienteAuditoria.FechaCambio = DateTime.Now;
+                    clienteAuditoria.Cedula = data.Cedula;
+                    clienteAuditoria.TipoCedula = data.TipoCedula;
+                    clienteAuditoria.NombreCompleto = data.NombreCompleto;
+                    clienteAuditoria.Telefono = data.Telefono;
+                    clienteAuditoria.Direccion = data.Direccion;
+                    clienteAuditoria.Email = data.Email;
+                    clienteAuditoria.Password = data.Password;
+                    clienteAuditoria.TipoUsuario = data.TipoUsuario;
+                    clienteAuditoria.Restablecer = data.Restablecer;
+                    clienteAuditoria.FechaRegistro = data.FechaRegistro;
+                    clienteAuditoria.Estado = data.Estado;
+
+                    _context.Clientes_Auditoria.Add(clienteAuditoria);
+                    await _context.SaveChangesAsync();
                 }
             }
             catch (Exception ex)
@@ -315,7 +378,7 @@ namespace APIHotelBeach.Controllers
 
                 EmailCuenta email = new EmailCuenta();
 
-                email.Enviar(temp);
+                //email.Enviar(temp);
 
                 enviado = true;
 
